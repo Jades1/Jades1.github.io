@@ -1,0 +1,14 @@
+Third-party notice
+
+The visual design of index.html (palette, type scale, header, hero, section,
+card, button and footer styling) is modeled on the Hugo theme "CoHub" by
+StaticMania. No code or images from the theme are included; the CSS was
+written from scratch to match its look.
+
+CoHub is distributed under the MIT License. Copyright line as it appears in
+the theme's LICENSE file:
+
+  Copyright (c) 2022 YOUR_NAME_HERE
+
+(The theme's LICENSE file carries this placeholder rather than StaticMania's
+name; StaticMania is the theme's author.)

@@ -1,0 +1,29 @@
+# James Ades: personal website
+
+A one-page personal site about the data science and app projects James Ades has built.
+Status: draft, not published. No domain has been bought.
+
+## Features
+
+- One page titled with the name "James Ades", with tabs for Apps, Data Science, About, and Contact that jump to each section.
+- A hero band with the name, a one-line description, and a button to the projects.
+- Twelve project cards, each with a picture slot, a short description, and a "Built with" line where the stack is known.
+- A Contact section linking to LinkedIn, ResearchGate, and GitHub. No email address, phone number, or contact form.
+- Light and dark modes that follow the visitor's system setting.
+- A phone layout with one column of cards and a collapsible menu.
+- No trackers, no web fonts, and no requests to any outside server.
+- Search metadata: page description, canonical address, and structured data naming the three profiles.
+
+## Preview
+
+Open `index.html` in a browser, or serve the folder locally:
+
+    python3 -m http.server 8000
+
+## Files
+
+- `index.html`: the whole site (inline styles, two small inline scripts for the phone menu).
+- `img/`: project pictures, one per card, named `<slug>.png` at 1200 by 750. Empty for now.
+- `robots.txt`, `sitemap.xml`, `CNAME`, `.nojekyll`: publishing files for GitHub Pages at `jamesades.com`.
+- `THIRD_PARTY.txt`: credit for the CoHub theme the design is modeled on (MIT license).
+- `CLAUDE.md`: working rules and open items for this project.

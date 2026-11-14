@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<!--
+  DRAFT, not published.
+  Domain "jamesades.com" appears in these places (change all in one pass):
+    index.html: <link rel="canonical">, <meta property="og:url">, JSON-LD "url"
+    robots.txt: Sitemap line
+    sitemap.xml: <loc>
+    CNAME: the whole file
+-->
+<!-- Design derived from the CoHub Hugo theme by StaticMania (MIT); see THIRD_PARTY.txt -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>James Ades | Data Scientist Building Data Science Tools and Apps</title>
+<meta name="description" content="James Ades is a data scientist in San Diego who builds data science tools and apps, from spatial and network analyses to budget, habit, typing, and learning apps.">
+<link rel="canonical" href="https://jamesades.com/">
+<meta property="og:title" content="James Ades | Data Scientist Building Data Science Tools and Apps">
+<meta property="og:description" content="James Ades is a data scientist in San Diego who builds data science tools and apps, from spatial and network analyses to budget, habit, typing, and learning apps.">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://jamesades.com/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "James Ades",
+  "url": "https://jamesades.com/",
+  "jobTitle": "Data Scientist",
+  "affiliation": {"@type": "Organization", "name": "Sammen"},
+  "alumniOf": [
+    {"@type": "CollegeOrUniversity", "name": "University of California, San Diego"},
+    {"@type": "CollegeOrUniversity", "name": "Middlebury College"}
+  ],
+  "address": {"@type": "PostalAddress", "addressLocality": "San Diego"},
+  "knowsAbout": ["Data science", "Spatial analysis", "Network analysis", "Machine learning", "Multilevel models", "Structural equation modeling", "Bayesian inference", "Python", "R"],
+  "sameAs": [
+    "https://www.linkedin.com/in/james-ades-93b346215/",
+    "https://www.researchgate.net/profile/James-Ades",
+    "https://github.com/Jades1"
+  ]
+}
+</script>
+<style>
+:root {
+  --body: #ffffff;
+  --alt: #f7f8fc;
+  --card: #ffffff;
+  --text: #666666;
+  --heading: #252525;
+  --primary: #0066cc;
+  --on-primary: #ffffff;
+  --border: #ededf4;
+  --bar: #808080;
+  --shadow: 0 0 12px 0 rgba(0, 0, 0, 0.09);
+  --hero: #252525;
+  --hero-text: #ffffff;
+  --hero-sub: #d6d6d6;
+  --focus: #b3470e;
+  --frame: #eceef4;
+  --ease: cubic-bezier(0.77, 0, 0.175, 1);
+  --font-head: "Avenir Next", Montserrat, "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Open Sans", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --body: #121417;
+    --alt: #1a1d22;
+    --card: #1b1d21;
+    --text: #c9ced6;
+    --heading: #f2f2f2;
+    --primary: #5aa9ff;
+    --on-primary: #0b1320;
+    --border: #2c3038;
+    --bar: #9ea5b0;
+    --shadow: 0 0 12px 0 rgba(0, 0, 0, 0.5);
+    --hero: #0d0f12;
+    --hero-text: #ffffff;
+    --hero-sub: #d6d6d6;
+    --focus: #f0a46a;
+    --frame: #24272d;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--body);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  letter-spacing: 0.2px;
+}
+h1, h2, h3 { color: var(--heading); font-family: var(--font-head); font-weight: 400; margin: 0; }
+p { margin: 0 0 0.6rem; }
+a { color: var(--primary); text-underline-offset: 0.15em; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 3px; }
+.container { max-width: 1140px; margin: 0 auto; padding: 0 16px; }
+
+/* Header (CoHub .main-nav, scrolled state) */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--body);
+  box-shadow: var(--shadow);
+}
+.site-header .container { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; min-height: 68px; }
+.brand { font-family: var(--font-head); font-size: 1.375rem; font-weight: 500; letter-spacing: 0.5px; color: var(--heading); text-decoration: none; padding: 0.75rem 0; }
+.menu-toggle { display: none; }
+.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 0; }
+.site-nav a {
+  display: block; padding: 0.6rem 1.1rem;
+  font-family: var(--font-head); font-size: 14px; font-weight: 500; letter-spacing: 1px;
+  color: var(--heading); text-decoration: none;
+}
+.site-nav a:hover { color: var(--primary); }
+
+/* Hero (CoHub .hero, dark overlay without the photo) */
+.hero { background: var(--hero); padding: 160px 0 140px; text-align: center; }
+.hero h1 { color: var(--hero-text); font-size: 50px; line-height: 1.4; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+.hero .descriptor { color: var(--hero-sub); font-size: 19px; line-height: 32px; margin: 0 auto 50px; max-width: 40rem; }
+.btn {
+  display: inline-block; background: var(--primary); color: var(--on-primary);
+  border: 1px solid var(--primary); font-family: var(--font-head); font-size: 14px; font-weight: 500;
+  letter-spacing: 0.5px; padding: 15px 40px; text-decoration: none; transition: transform 0.3s var(--ease);
+}
+.btn:hover { transform: translateY(-3px); }
+
+/* Sections (CoHub .section and .section-title) */
+.section { padding: 100px 0; scroll-margin-top: 72px; }
+.section.alt { background: var(--alt); }
+.section-title { text-align: center; position: relative; margin-bottom: 80px; }
+.section-title h2 { font-size: 40px; line-height: 1.3; font-weight: 300; }
+.section-title::after {
+  content: ""; position: absolute; width: 100px; height: 5px; border-radius: 5px;
+  background: var(--bar); bottom: -25px; left: 50%; transform: translateX(-50%);
+}
+
+/* Gallery cards (CoHub .gallery-item) */
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; }
+.cards article {
+  background: var(--card); border-radius: 8px; overflow: hidden; box-shadow: var(--shadow);
+  transition: transform 0.5s var(--ease);
+}
+.cards article:hover { transform: scale(1.02); }
+.cards figure { margin: 0; }
+.cards figure img {
+  display: block; max-width: 100%; width: 100%; height: auto;
+  aspect-ratio: 1200 / 750; object-fit: cover;
+  background: var(--frame); border-bottom: 1px solid var(--border);
+}
+.cards figcaption { font-size: 0.875rem; padding: 0.6rem 24px 0; color: var(--text); }
+.cards h3 { order: 0; font-size: 19px; line-height: 1.4; padding: 0 24px; margin: 0.9rem 0 0.5rem; }
+.cards article { display: flex; flex-direction: column; }
+.cards article > h3 { order: 2; }
+.cards article > figure { order: 1; }
+.cards article > p { order: 3; padding: 0 24px; }
+.cards article > p.stack { font-size: 0.875rem; margin-top: auto; padding-top: 0.4rem; padding-bottom: 24px; border-top: 1px solid var(--border); margin-left: 24px; margin-right: 24px; padding-left: 0; padding-right: 0; }
+.cards article > p:last-child:not(.stack) { padding-bottom: 24px; }
+
+/* About and Contact */
+.narrow { max-width: 44rem; margin: 0 auto; }
+.about-text { font-size: 17px; line-height: 1.8; text-align: center; }
+.profiles { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+.profiles a {
+  display: inline-block; padding: 12px 32px; border: 1px solid var(--primary);
+  color: var(--primary); font-family: var(--font-head); font-size: 14px; font-weight: 500;
+  letter-spacing: 0.5px; text-decoration: none; transition: transform 0.3s var(--ease);
+}
+.profiles a:hover { background: var(--primary); color: var(--on-primary); transform: translateY(-3px); }
+
+/* Footer (CoHub .footer) */
+footer { background: var(--alt); border-top: 1px solid var(--border); padding: 30px 0; text-align: center; font-size: 14px; }
+footer p { margin: 0; }
+
+@media (max-width: 991px) {
+  .section { padding: 60px 0; }
+  .section-title { margin-bottom: 60px; }
+  .hero { padding: 120px 0 100px; }
+}
+@media (max-width: 767px) {
+  .cards { grid-template-columns: minmax(0, 1fr); }
+  .hero h1 { font-size: 32px; }
+  .hero .descriptor { font-size: 17px; line-height: 28px; margin-bottom: 36px; }
+  .section-title h2 { font-size: 30px; }
+  .js .menu-toggle {
+    display: inline-flex; flex-direction: column; justify-content: center; gap: 5px;
+    background: none; border: 0; padding: 12px 6px; cursor: pointer;
+  }
+  .menu-toggle .bar { display: block; width: 25px; height: 2px; background: var(--heading); }
+  .site-nav { width: 100%; }
+  .site-nav ul { flex-direction: column; padding-bottom: 0.5rem; }
+  .site-nav a { padding: 0.7rem 0; }
+  .js .site-nav:not(.open) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; }
+  .cards article:hover, .btn:hover, .profiles a:hover { transform: none; }
+}
+</style>
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="#top">James Ades</a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="#apps">Apps</a></li>
+        <li><a href="#data-science">Data Science</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="hero" id="top">
+    <div class="container">
+      <h1>James Ades</h1>
+      <p class="descriptor">Data scientist and founder of Sammen, San Diego</p>
+      <a class="btn" href="#apps">See the projects</a>
+    </div>
+  </section>
+
+  <section class="section" id="apps" aria-labelledby="apps-h">
+    <div class="container">
+      <div class="section-title"><h2 id="apps-h">Apps</h2></div>
+      <div class="cards">
+      <article>
+        <h3>Budget</h3>
+        <figure><img src="img/budget.png" alt="Screenshot of the Budget app's monthly view with spending by category" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Monthly spending by category</figcaption></figure>
+        <p>A private budget tracker for logging each spend as it happens and watching monthly totals build up by category. Charts show the current month by category and the last six months side by side, and data stays in the browser, with optional sync across devices and CSV export.</p>
+        <p class="stack">Built with: HTML, Chart.js; installable as a web app</p>
+      </article>
+      <article>
+        <h3>Time Tracker + Pomodoro</h3>
+        <figure><img src="img/time-tracker.png" alt="Screenshot of the Time Tracker's Pomodoro timer and daily timeline" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Timer and daily timeline</figcaption></figure>
+        <p>A personal time-tracking web app with a built-in Pomodoro timer: create tasks, track time on each, and work in focus periods with breaks. Tracked time appears on a daily timeline as it accrues, and data syncs across laptop and phone.</p>
+        <p class="stack">Built with: JavaScript, HTML, CSS, Supabase, GitHub Pages</p>
+      </article>
+      <article>
+        <h3>Adaptive Typing Trainer</h3>
+        <figure><img src="img/typing-trainer.png" alt="Screenshot of the Adaptive Typing Trainer's practice screen with the finger-coded keyboard" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Practice screen</figcaption></figure>
+        <p>A browser-based typing trainer that has you type real words and sentences while it finds the few keys you are weak on and drills those. A separate beginner course teaches key locations one at a time, with the correct finger shown for every key.</p>
+        <p class="stack">Built with: JavaScript, no dependencies</p>
+      </article>
+      <article>
+        <h3>learning_app</h3>
+        <figure><img src="img/learning-app.png" alt="Screenshot of learning_app's graph canvas during a review" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Studying on the graph</figcaption></figure>
+        <p>A graph-based spaced-repetition tool: you build a spatial graph of ideas and study it by reconstructing it from memory. Due nodes light up on the graph, hints are given only as needed, and reviews are scheduled with FSRS. It works fully offline, with optional cloud sync.</p>
+        <p class="stack">Built with: TypeScript, React, Vite, React Flow, ts-fsrs, Dexie/IndexedDB, Supabase</p>
+      </article>
+      <article>
+        <h3>Better Habits</h3>
+        <figure><img src="img/better-habits.png" alt="Screenshot of the Better Habits daily check-in screen on iPhone" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Daily check-in</figcaption></figure>
+        <p>A private daily habit tracker with one-tap check-ins, streaks, stats, and custom reminders. It is a native app for iPhone and Mac, rebuilt from an earlier web app so that reminders reach the lock screen even when the app is closed.</p>
+        <p class="stack">Built with: SwiftUI, Swift Charts</p>
+      </article>
+      <article>
+        <h3>Rent vs. Own Calculator (Sammen)</h3>
+        <figure><img src="img/rent-vs-own.png" alt="Screenshot of the Rent vs. Own Calculator showing owner and renter net worth by year" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Owner and renter net worth over 30 years</figcaption></figure>
+        <p>A rent-versus-buy net-worth comparison for Sammen buildings, run per property and unit type: one person buys a unit, the other rents it and invests the difference, and the model asks who is worth more if each cashed out at the end of every year for 30 years. It applies selling costs, capital-gains tax on both sides, and California's Proposition 13 cap, and reports the year owning pulls ahead for good. The same model runs as a Python engine and as a self-contained HTML calculator.</p>
+        <p class="stack">Built with: Python, HTML</p>
+      </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="data-science" aria-labelledby="ds-h">
+    <div class="container">
+      <div class="section-title"><h2 id="ds-h">Data Science</h2></div>
+      <div class="cards">
+      <article>
+        <h3>Recipe Recommendation System</h3>
+        <figure><img src="img/recipe-recommender.png" alt="Screenshot of the Recipe Recommendation System's recipe page with similar recipes" width="1200" height="750" loading="lazy" decoding="async"><figcaption>A recipe and its graph neighbors</figcaption></figure>
+        <p>A recipe app for a circle of friends in which recipes and ingredients live in a Neo4j graph. Recommendations come from graph traversal (shared ingredients, friends' ratings, and pantry matching) rather than a black-box model, and new recipes are structured into the graph from pasted text or photos.</p>
+        <p class="stack">Built with: Neo4j, Next.js (React), Tailwind, Claude API</p>
+      </article>
+      <article>
+        <h3>Behavioral-health network analysis (UC San Diego Health)</h3>
+        <figure><img src="img/network-analysis.png" alt="Map or network figure of behavioral-health services across San Diego County" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Behavioral-health service network</figcaption></figure>
+        <p>A network-analysis tool to optimize behavioral-health services across San Diego County, pitched to County Behavioral Health, which adopted it. It is fed by a pipeline that cleans protected health information, provider and other data, with Tableau dashboards for stakeholders.</p>
+      </article>
+      <article>
+        <h3>Housing capstone project (UC San Diego)</h3>
+        <figure><img src="img/housing-capstone.png" alt="Screenshot of the capstone's Dash dashboard of San Diego housing data" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Capstone dashboard</figcaption></figure>
+        <p>A graduate capstone that collected Zillow listings, Yelp business data and 36 Census variables into PostgreSQL, then used XGBoost, random forest, multilevel and spatial regression models to identify high-value homes for low-income families. Results were presented in a Dash and Plotly dashboard and an ArcGIS StoryMap.</p>
+        <p class="stack">Built with: Python (Scrapy, Beautiful Soup, GeoPandas, PySpark, Dask), PostgreSQL, ArcGIS, Dash, Plotly</p>
+      </article>
+      <article>
+        <h3>Acquisitions data pipeline (Sammen)</h3>
+        <figure><img src="img/acquisitions-pipeline.png" alt="Chart comparing the hedonic pricing model with raw comparables" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Model against raw comparables</figcaption></figure>
+        <p>Extracts and structures LoopNet offering memoranda into a comparables dataset. A hedonic pricing model is fit to the data and cross-checked against raw comparables.</p>
+      </article>
+      <article>
+        <h3>spatial_package</h3>
+        <figure><img src="img/spatial-package.png" alt="Example output figure from spatial_package" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Example spatial analysis</figcaption></figure>
+        <p>Functions for spatial analyses.</p>
+      </article>
+      <article>
+        <h3>fspackage</h3>
+        <figure><img src="img/fspackage.png" alt="Example data quality report from fspackage" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Example data quality check</figcaption></figure>
+        <p>Data quality checks on FSP.</p>
+        <p class="stack">Built with: R</p>
+      </article>
+      <!-- TODO: ace_thresholds left out pending a description from James. -->
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about" aria-labelledby="about-h">
+    <div class="container narrow">
+      <div class="section-title"><h2 id="about-h">About</h2></div>
+  <p class="about-text">I am James Ades, a data scientist in San Diego, and I build data science tools and apps. I hold a Master of Science in Data Science and Engineering from the University of California, San Diego, and have worked as a data scientist at UC San Diego Health and as a research associate at NEAT Labs. I am also the founder of Sammen, a San Diego housing company that organizes buyers into ownership groups for small multifamily buildings.</p>
+    </div>
+  </section>
+
+  <section class="section alt" id="contact" aria-labelledby="contact-h">
+    <div class="container narrow">
+      <div class="section-title"><h2 id="contact-h">Contact</h2></div>
+    <ul class="profiles">
+      <li><a href="https://www.linkedin.com/in/james-ades-93b346215/" rel="me noopener">LinkedIn</a></li>
+      <li><a href="https://www.researchgate.net/profile/James-Ades" rel="me noopener">ResearchGate</a></li>
+      <li><a href="https://github.com/Jades1" rel="me noopener">GitHub</a></li>
+      <!-- TODO: Google Scholar link goes here: <li><a href="SCHOLAR_URL" rel="me noopener">Google Scholar</a></li> (also add to JSON-LD sameAs) -->
+      <!-- TODO: ORCID link goes here: <li><a href="ORCID_URL" rel="me noopener">ORCID</a></li> (also add to JSON-LD sameAs) -->
+    </ul>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="container">
+  <p>James Ades, San Diego.</p>
+  </div>
+</footer>
+<script>
+(function () {
+  var btn = document.querySelector(".menu-toggle");
+  var nav = document.getElementById("site-nav");
+  if (!btn || !nav) return;
+  function set(open) { nav.classList.toggle("open", open); btn.setAttribute("aria-expanded", open ? "true" : "false"); }
+  btn.addEventListener("click", function () { set(btn.getAttribute("aria-expanded") !== "true"); });
+  nav.addEventListener("click", function (e) { if (e.target.tagName === "A") set(false); });
+})();
+</script>
+</body>
+</html>
