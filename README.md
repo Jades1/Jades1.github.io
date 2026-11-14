@@ -7,7 +7,8 @@ Status: live at https://jamesades.com (GitHub Pages, repository `Jades1/Jades1.g
 
 - One page titled with the name "James Ades", with tabs for Apps, Data Science, About, and Contact that jump to each section.
 - A hero band with the name, a one-line description, and a button to the projects.
-- Twelve project cards, each with a picture slot, a short description, and a "Built with" line where the stack is known.
+- Twelve project cards, each with a picture where one exists (four so far), a short description, and a "Built with" line where the stack is known.
+- Projects with a live site link to it, and their picture is a clickable thumbnail (four apps and the recipe site).
 - A Contact section linking to LinkedIn, ResearchGate, and GitHub. No email address, phone number, or contact form.
 - Light and dark modes that follow the visitor's system setting.
 - A phone layout with one column of cards and a collapsible menu.
@@ -23,7 +24,7 @@ Open `index.html` in a browser, or serve the folder locally:
 ## Files
 
 - `index.html`: the whole site (inline styles, two small inline scripts for the phone menu).
-- `img/`: project pictures, one per card, named `<slug>.png` at 1200 by 750. Empty for now.
+- `img/`: project pictures, one per card, named `<slug>.png` at 1200 by 750. Holds four pictures so far.
 - `robots.txt`, `sitemap.xml`, `CNAME`, `.nojekyll`: publishing files for GitHub Pages at `jamesades.com`.
 - `THIRD_PARTY.txt`: credit for the CoHub theme the design is modeled on (MIT license).
 - `CLAUDE.md`: working rules and open items for this project.

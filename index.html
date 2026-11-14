@@ -156,6 +156,12 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline
 .cards article > p { order: 3; padding: 0 24px; }
 .cards article > p.stack { font-size: 0.875rem; margin-top: auto; padding-top: 0.4rem; padding-bottom: 24px; border-top: 1px solid var(--border); margin-left: 24px; margin-right: 24px; padding-left: 0; padding-right: 0; }
 .cards article > p:last-child:not(.stack) { padding-bottom: 24px; }
+.cards article > p.stack:not(:last-child) { padding-bottom: 0.6rem; }
+.cards article > p.live { font-family: var(--font-head); font-size: 14px; font-weight: 500; letter-spacing: 0.5px; }
+.cards p.live a::after { content: " \2192"; content: " \2192" / ""; }
+.cards figure a { display: block; }
+.cards figure a:focus-visible { outline-offset: -3px; border-radius: 0; }
+.cards article > h3:has(+ p) { margin-top: 24px; }
 
 /* About and Contact */
 .narrow { max-width: 44rem; margin: 0 auto; }
@@ -230,31 +236,35 @@ footer p { margin: 0; }
       <div class="cards">
       <article>
         <h3>Budget</h3>
-        <figure><img src="img/budget.png" alt="Screenshot of the Budget app's monthly view with spending by category" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Monthly spending by category</figcaption></figure>
+        <figure><a href="https://jamesades.com/budget-app/" aria-label="Open the Budget app"><img src="img/budget.png" alt="Screenshot of the Budget app's monthly view with spending by category" width="1200" height="750" loading="lazy" decoding="async"></a><figcaption>Monthly spending by category</figcaption></figure>
         <p>A private budget tracker for logging each spend as it happens and watching monthly totals build up by category. Charts show the current month by category and the last six months side by side, and data stays in the browser, with optional sync across devices and CSV export.</p>
         <p class="stack">Built with: HTML, Chart.js; installable as a web app</p>
+        <p class="live"><a href="https://jamesades.com/budget-app/">Open the app</a></p>
       </article>
       <article>
         <h3>Time Tracker + Pomodoro</h3>
-        <figure><img src="img/time-tracker.png" alt="Screenshot of the Time Tracker's Pomodoro timer and daily timeline" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Timer and daily timeline</figcaption></figure>
+        <figure><a href="https://jamesades.com/work_tracking/" aria-label="Open the Time Tracker app"><img src="img/time-tracker.png" alt="Screenshot of the Time Tracker's Pomodoro timer and daily timeline" width="1200" height="750" loading="lazy" decoding="async"></a><figcaption>Timer and daily timeline</figcaption></figure>
         <p>A personal time-tracking web app with a built-in Pomodoro timer: create tasks, track time on each, and work in focus periods with breaks. Tracked time appears on a daily timeline as it accrues, and data syncs across laptop and phone.</p>
         <p class="stack">Built with: JavaScript, HTML, CSS, Supabase, GitHub Pages</p>
+        <p class="live"><a href="https://jamesades.com/work_tracking/">Open the app</a></p>
       </article>
       <article>
         <h3>Adaptive Typing Trainer</h3>
-        <figure><img src="img/typing-trainer.png" alt="Screenshot of the Adaptive Typing Trainer's practice screen with the finger-coded keyboard" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Practice screen</figcaption></figure>
+        <figure><a href="https://jamesades.com/typing_app/" aria-label="Open the Adaptive Typing Trainer app"><img src="img/typing-trainer.png" alt="Screenshot of the Adaptive Typing Trainer's practice screen with the finger-coded keyboard" width="1200" height="750" loading="lazy" decoding="async"></a><figcaption>Practice screen</figcaption></figure>
         <p>A browser-based typing trainer that has you type real words and sentences while it finds the few keys you are weak on and drills those. A separate beginner course teaches key locations one at a time, with the correct finger shown for every key.</p>
         <p class="stack">Built with: JavaScript, no dependencies</p>
+        <p class="live"><a href="https://jamesades.com/typing_app/">Open the app</a></p>
       </article>
       <article>
         <h3>learning_app</h3>
-        <figure><img src="img/learning-app.png" alt="Screenshot of learning_app's graph canvas during a review" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Studying on the graph</figcaption></figure>
+        <!-- PICTURE PENDING learning-app: <figure><img src="img/learning-app.png" alt="Screenshot of learning_app's graph canvas during a review" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Studying on the graph</figcaption></figure> -->
         <p>A graph-based spaced-repetition tool: you build a spatial graph of ideas and study it by reconstructing it from memory. Due nodes light up on the graph, hints are given only as needed, and reviews are scheduled with FSRS. It works fully offline, with optional cloud sync.</p>
         <p class="stack">Built with: TypeScript, React, Vite, React Flow, ts-fsrs, Dexie/IndexedDB, Supabase</p>
+        <p class="live"><a href="https://jamesades.com/learning_app/">Open the app</a></p>
       </article>
       <article>
         <h3>Better Habits</h3>
-        <figure><img src="img/better-habits.png" alt="Screenshot of the Better Habits daily check-in screen on iPhone" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Daily check-in</figcaption></figure>
+        <!-- PICTURE PENDING better-habits: <figure><img src="img/better-habits.png" alt="Screenshot of the Better Habits daily check-in screen on iPhone" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Daily check-in</figcaption></figure> -->
         <p>A private daily habit tracker with one-tap check-ins, streaks, stats, and custom reminders. It is a native app for iPhone and Mac, rebuilt from an earlier web app so that reminders reach the lock screen even when the app is closed.</p>
         <p class="stack">Built with: SwiftUI, Swift Charts</p>
       </article>
@@ -274,34 +284,35 @@ footer p { margin: 0; }
       <div class="cards">
       <article>
         <h3>Recipe Recommendation System</h3>
-        <figure><img src="img/recipe-recommender.png" alt="Screenshot of the Recipe Recommendation System's recipe page with similar recipes" width="1200" height="750" loading="lazy" decoding="async"><figcaption>A recipe and its graph neighbors</figcaption></figure>
+        <!-- PICTURE PENDING recipe-recommender: <figure><img src="img/recipe-recommender.png" alt="Screenshot of the Recipe Recommendation System's recipe page with similar recipes" width="1200" height="750" loading="lazy" decoding="async"><figcaption>A recipe and its graph neighbors</figcaption></figure> -->
         <p>A recipe app for a circle of friends in which recipes and ingredients live in a Neo4j graph. Recommendations come from graph traversal (shared ingredients, friends' ratings, and pantry matching) rather than a black-box model, and new recipes are structured into the graph from pasted text or photos.</p>
         <p class="stack">Built with: Neo4j, Next.js (React), Tailwind, Claude API</p>
+        <p class="live"><a href="https://recipe-recommendation-system-theta.vercel.app" rel="noopener">Open the site (sign-in required)</a></p>
       </article>
       <article>
         <h3>Behavioral-health network analysis (UC San Diego Health)</h3>
-        <figure><img src="img/network-analysis.png" alt="Map or network figure of behavioral-health services across San Diego County" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Behavioral-health service network</figcaption></figure>
+        <!-- PICTURE PENDING network-analysis: <figure><img src="img/network-analysis.png" alt="Map or network figure of behavioral-health services across San Diego County" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Behavioral-health service network</figcaption></figure> -->
         <p>A network-analysis tool to optimize behavioral-health services across San Diego County, pitched to County Behavioral Health, which adopted it. It is fed by a pipeline that cleans protected health information, provider and other data, with Tableau dashboards for stakeholders.</p>
       </article>
       <article>
         <h3>Housing capstone project (UC San Diego)</h3>
-        <figure><img src="img/housing-capstone.png" alt="Screenshot of the capstone's Dash dashboard of San Diego housing data" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Capstone dashboard</figcaption></figure>
+        <!-- PICTURE PENDING housing-capstone: <figure><img src="img/housing-capstone.png" alt="Screenshot of the capstone's Dash dashboard of San Diego housing data" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Capstone dashboard</figcaption></figure> -->
         <p>A graduate capstone that collected Zillow listings, Yelp business data and 36 Census variables into PostgreSQL, then used XGBoost, random forest, multilevel and spatial regression models to identify high-value homes for low-income families. Results were presented in a Dash and Plotly dashboard and an ArcGIS StoryMap.</p>
         <p class="stack">Built with: Python (Scrapy, Beautiful Soup, GeoPandas, PySpark, Dask), PostgreSQL, ArcGIS, Dash, Plotly</p>
       </article>
       <article>
         <h3>Acquisitions data pipeline (Sammen)</h3>
-        <figure><img src="img/acquisitions-pipeline.png" alt="Chart comparing the hedonic pricing model with raw comparables" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Model against raw comparables</figcaption></figure>
+        <!-- PICTURE PENDING acquisitions-pipeline: <figure><img src="img/acquisitions-pipeline.png" alt="Chart comparing the hedonic pricing model with raw comparables" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Model against raw comparables</figcaption></figure> -->
         <p>Extracts and structures LoopNet offering memoranda into a comparables dataset. A hedonic pricing model is fit to the data and cross-checked against raw comparables.</p>
       </article>
       <article>
         <h3>spatial_package</h3>
-        <figure><img src="img/spatial-package.png" alt="Example output figure from spatial_package" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Example spatial analysis</figcaption></figure>
+        <!-- PICTURE PENDING spatial-package: <figure><img src="img/spatial-package.png" alt="Example output figure from spatial_package" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Example spatial analysis</figcaption></figure> -->
         <p>Functions for spatial analyses.</p>
       </article>
       <article>
         <h3>fspackage</h3>
-        <figure><img src="img/fspackage.png" alt="Example data quality report from fspackage" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Example data quality check</figcaption></figure>
+        <!-- PICTURE PENDING fspackage: <figure><img src="img/fspackage.png" alt="Example data quality report from fspackage" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Example data quality check</figcaption></figure> -->
         <p>Data quality checks on FSP.</p>
         <p class="stack">Built with: R</p>
       </article>
