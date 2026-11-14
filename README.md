@@ -1,7 +1,7 @@
 # James Ades: personal website
 
 A one-page personal site about the data science and app projects James Ades has built.
-Status: draft, not published. No domain has been bought.
+Status: live at https://jamesades.com (GitHub Pages, repository `Jades1/Jades1.github.io`), published 2026-11-13.
 
 ## Features
 
