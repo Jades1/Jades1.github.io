@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<!-- Case citator example. Read-only demonstration: all names, citations, dates and passages in data.js are invented. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Case citator example | James Ades</title>
+<meta name="description" content="An interactive example of a case citator: which case cites which, how, and how far each case has been checked. All case names and citations are invented.">
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 300; font-display: swap; src: url("../fonts/montserrat-latin-300-normal.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/montserrat-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 500; font-display: swap; src: url("../fonts/montserrat-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Open Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/open-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Open Sans"; font-style: normal; font-weight: 600; font-display: swap; src: url("../fonts/open-sans-latin-600-normal.woff2") format("woff2"); }
+
+:root {
+  --body: #ffffff;
+  --alt: #f7f8fc;
+  --card: #ffffff;
+  --text: #666666;
+  --heading: #252525;
+  --primary: #0066cc;
+  --on-primary: #ffffff;
+  --border: #ededf4;
+  --bar: #808080;
+  --shadow: 0 0 12px 0 rgba(0, 0, 0, 0.09);
+  --focus: #b3470e;
+  --frame: #eceef4;
+  --font-head: Montserrat, "Avenir Next", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* signal colours: fill, and a darker ring so each node clears 3:1 against the page */
+  --sig-red: #d32f2f;      --sig-red-ring: #8e1b1b;
+  --sig-yellow: #e0a800;   --sig-yellow-ring: #7a5a00;
+  --sig-green: #2e7d32;    --sig-green-ring: #1b4d1e;
+  --sig-grey: #b8bcc4;     --sig-grey-ring: #5f6570;
+  /* relation types */
+  --rel-follows: #0066cc;
+  --rel-distinguishes: #a86a00;
+  --rel-questions: #c2410c;
+  --rel-modifies: #7b4fbf;
+  --rel-disapproves: #c62828;
+  --rel-cites: #9aa1ad;
+  --label: #252525;
+  --label-halo: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --body: #121417;
+    --alt: #1a1d22;
+    --card: #1e2126;
+    --text: #c9ced6;
+    --heading: #f2f2f2;
+    --primary: #5aa9ff;
+    --on-primary: #0b1320;
+    --border: #2c3038;
+    --bar: #9ea5b0;
+    --shadow: 0 0 12px 0 rgba(0, 0, 0, 0.5);
+    --focus: #f0a46a;
+    --frame: #24272d;
+    --sig-red: #ff6b6b;      --sig-red-ring: #ffb3b3;
+    --sig-yellow: #f2c84b;   --sig-yellow-ring: #fff0b8;
+    --sig-green: #5cc46a;    --sig-green-ring: #b9ecc0;
+    --sig-grey: #6b727d;     --sig-grey-ring: #aab1bc;
+    --rel-follows: #5aa9ff;
+    --rel-distinguishes: #e3b341;
+    --rel-questions: #ff9a5c;
+    --rel-modifies: #b897ff;
+    --rel-disapproves: #ff6b6b;
+    --rel-cites: #4f5662;
+    --label: #f2f2f2;
+    --label-halo: #121417;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--body); color: var(--text);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.7; letter-spacing: 0.2px;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { color: var(--heading); font-family: var(--font-head); font-weight: 400; margin: 0; }
+p { margin: 0 0 0.75rem; }
+a { color: var(--primary); text-underline-offset: 0.15em; }
+a:focus-visible, button:focus-visible, select:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 3px; }
+.container { max-width: 1240px; margin: 0 auto; padding: 0 16px; }
+
+.site-header { background: var(--body); box-shadow: var(--shadow); }
+.site-header .container { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 16px; }
+.brand { font-family: var(--font-head); font-size: 1.375rem; font-weight: 500; letter-spacing: 0.5px; color: var(--heading); text-decoration: none; }
+.back { font-family: var(--font-head); font-size: 13px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; }
+.back:hover { text-decoration: underline; }
+
+main { padding: 40px 0 70px; }
+.intro h1 { font-size: 40px; line-height: 1.25; font-weight: 300; letter-spacing: 0.5px; }
+.notice { font-weight: 600; color: var(--heading); margin: 6px 0 12px; }
+.intro p.lede { max-width: 46rem; }
+
+.ladder { list-style: none; margin: 28px 0 30px; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; counter-reset: rung; }
+.ladder li { background: var(--alt); border-top: 3px solid var(--primary); border-radius: 6px; padding: 14px 16px; font-size: 14px; line-height: 1.55; }
+.ladder li b { display: block; font-family: var(--font-head); font-weight: 500; color: var(--heading); font-size: 15px; margin-bottom: 4px; }
+.ladder li b::before { counter-increment: rung; content: counter(rung) ". "; color: var(--primary); }
+
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-bottom: 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chips-label, .pick-label { font-family: var(--font-head); font-size: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--text); }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  font: 500 13px/1 var(--font-head); letter-spacing: 0.4px; color: var(--heading);
+  background: var(--card); border: 1px solid var(--bar); border-radius: 999px; padding: 8px 12px;
+}
+.chip svg { flex: none; }
+.chip[aria-pressed="false"] { opacity: 0.55; text-decoration: line-through; }
+.chip[aria-pressed="false"] svg { opacity: 0.4; }
+.pick { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pick select { font: 14px var(--font-body); color: var(--heading); background: var(--card); border: 1px solid var(--bar); border-radius: 6px; padding: 6px 8px; max-width: 100%; }
+
+.workspace { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 24px; align-items: start; }
+.netbox { background: var(--card); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow); overflow: hidden; }
+#net { display: block; width: 100%; height: auto; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 12px 16px; border-top: 1px solid var(--border); font-size: 13px; line-height: 1.5; }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.legend svg { flex: none; }
+.legend .note { color: var(--text); flex-basis: 100%; }
+
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow); padding: 20px 22px; }
+.panel h2 { font-size: 22px; line-height: 1.35; font-weight: 400; }
+.panel .meta { font-size: 14px; margin: 4px 0 12px; }
+.badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-head); font-weight: 500; color: var(--heading); font-size: 15px; }
+.badge svg { flex: none; }
+.signal-words { margin: 6px 0 10px; font-size: 14px; }
+.status-line { font-size: 13px; background: var(--alt); border-radius: 6px; padding: 8px 10px; color: var(--heading); margin-bottom: 14px; overflow-wrap: anywhere; }
+.status-line span { display: block; font-family: var(--font-head); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--text); }
+.mini-ladder { list-style: none; padding: 0; margin: 0 0 16px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
+.mini-ladder li { font-size: 11.5px; line-height: 1.3; text-align: center; padding: 6px 4px; border-radius: 4px; background: var(--alt); color: var(--text); border: 1px solid transparent; }
+.mini-ladder li.done { color: var(--heading); }
+.mini-ladder li[aria-current="step"] { background: var(--primary); color: var(--on-primary); font-weight: 600; }
+.panel h3 { font-family: var(--font-head); font-size: 13px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; margin: 16px 0 6px; display: flex; align-items: center; gap: 8px; }
+.panel ul.rel { list-style: none; margin: 0; padding: 0; }
+.panel ul.rel > li { margin: 0 0 10px; }
+.panel blockquote { margin: 4px 0 0; padding: 4px 0 4px 12px; border-left: 3px solid var(--border); font-size: 14px; line-height: 1.55; color: var(--heading); }
+.linkish { background: none; border: 0; padding: 0; font: inherit; color: var(--primary); text-decoration: underline; text-underline-offset: 0.15em; cursor: pointer; text-align: left; }
+.panel .cites-list { font-size: 14px; line-height: 1.6; }
+.panel .none { font-size: 14px; }
+.panel .clean { font-size: 14px; color: var(--heading); background: var(--alt); border-radius: 6px; padding: 8px 10px; }
+
+/* network */
+.edge { fill: none; transition: opacity 0.2s ease; }
+.edge.t-cites { stroke: var(--rel-cites); stroke-width: 1; }
+.edge.t-follows { stroke: var(--rel-follows); stroke-width: 2.4; }
+.edge.t-distinguishes { stroke: var(--rel-distinguishes); stroke-width: 2.4; stroke-dasharray: 7 4; }
+.edge.t-questions { stroke: var(--rel-questions); stroke-width: 2.6; stroke-dasharray: 2 4; stroke-linecap: round; }
+.edge.t-modifies { stroke: var(--rel-modifies); stroke-width: 2.6; stroke-dasharray: 10 3 2 3; }
+.edge.t-disapproves { stroke: var(--rel-disapproves); stroke-width: 3.4; }
+.edge.hidden { display: none; }
+.dimmed .edge { opacity: 0.1; }
+.dimmed .edge.on { opacity: 1; }
+.node { cursor: pointer; transition: opacity 0.2s ease; }
+.dimmed .node { opacity: 0.28; }
+.dimmed .node.on { opacity: 1; }
+.node circle.dot { stroke-width: 1.5; }
+.node.s-red circle.dot { fill: var(--sig-red); stroke: var(--sig-red-ring); }
+.node.s-yellow circle.dot { fill: var(--sig-yellow); stroke: var(--sig-yellow-ring); }
+.node.s-green circle.dot { fill: var(--sig-green); stroke: var(--sig-green-ring); }
+.node.s-grey circle.dot { fill: var(--sig-grey); stroke: var(--sig-grey-ring); }
+.node.unread circle.dot { stroke-dasharray: 3 2; }
+.node circle.hit { fill: transparent; stroke: none; }
+.node circle.ring { fill: none; stroke: none; stroke-width: 3.5; }
+.node.selected circle.ring { stroke: var(--heading); }
+.node:focus { outline: none; }
+.node:focus-visible circle.ring { stroke: var(--focus); stroke-width: 4; }
+.node text { font-family: var(--font-head); font-size: 14px; font-weight: 500; fill: var(--label); paint-order: stroke; stroke: var(--label-halo); stroke-width: 4px; stroke-linejoin: round; pointer-events: none; }
+
+@media (max-width: 1000px) {
+  .workspace { grid-template-columns: minmax(0, 1fr); }
+  .ladder { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .intro h1 { font-size: 32px; }
+  .node text.tier-2 { display: none; }
+  .node text { font-size: 26px; stroke-width: 6px; }
+  .site-header .container { min-height: 56px; }
+  .brand { font-size: 1.2rem; }
+}
+@media (max-width: 480px) {
+  .ladder { grid-template-columns: minmax(0, 1fr); }
+  .panel { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .edge, .node { transition: none; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="../">James Ades</a>
+    <a class="back" href="../">Back to the site</a>
+  </div>
+</header>
+
+<main class="container">
+  <section class="intro" aria-labelledby="title">
+    <h1 id="title">Case citator</h1>
+    <p class="notice">Example. Every case name, citation, date, and quotation on this page is invented.</p>
+    <p class="lede">A citator keeps one record per case, the relations between cases (who follows, distinguishes, or questions whom, with the citing passage quoted), and how far each case has been checked. Each case gets a signal computed from those relations and its place on a four-step ladder. Select a case to see who cites it and how.</p>
+  </section>
+
+  <ol class="ladder" aria-label="The status ladder">
+    <li><b>Unchecked</b>The case is on file with the holding relied on.</li>
+    <li><b>Citers listed</b>Every case that cites it, from two public indexes.</li>
+    <li><b>Citers screened</b>Every published citer scanned for treatment language, flagged passages read and quoted.</li>
+    <li><b>Checked on Lexis</b>A person runs Shepard's before each filing.</li>
+  </ol>
+
+  <noscript><p class="notice">This example needs JavaScript to draw the network.</p></noscript>
+
+  <div class="controls">
+    <div class="chips" role="group" aria-label="Show or hide relation types">
+      <span class="chips-label">Relations</span>
+    </div>
+    <div class="pick">
+      <label class="pick-label" for="pick">Case</label>
+      <select id="pick"></select>
+    </div>
+  </div>
+
+  <div class="workspace">
+    <figure class="netbox" style="margin:0">
+      <svg id="net" role="group" aria-label="Citation network of invented cases. Each case is a button; arrows run from the citing case to the cited case."></svg>
+      <figcaption class="legend" id="legend"></figcaption>
+    </figure>
+    <aside class="panel" id="panel" aria-live="polite" aria-label="Selected case"></aside>
+  </div>
+</main>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  "use strict";
+  var D = window.CITATOR;
+  if (!D) return;
+  var SVGNS = "http://www.w3.org/2000/svg";
+  var byId = {};
+  D.nodes.forEach(function (n) { byId[n.id] = n; });
+
+  var SIGNAL = {
+    red: { word: "Red", meaning: "overruled, disapproved, review granted, or depublished by a later case." },
+    yellow: { word: "Yellow", meaning: "questioned, modified, or distinguished by a later case, or citers listed but not yet screened." },
+    green: { word: "Green", meaning: "citers screened or checked on Lexis, and no treatment found." },
+    grey: { word: "Grey", meaning: "unchecked: the case's own citers have not been listed." }
+  };
+  // order in the panel: most serious first
+  var TYPES = [
+    { key: "disapproves", label: "Disapproves", chip: "Overrules or disapproves", plural: "Disapproved by" },
+    { key: "overrules", label: "Overrules", chip: null, plural: "Overruled by" },
+    { key: "questions", label: "Questions", chip: "Questions", plural: "Questioned by" },
+    { key: "modifies", label: "Modifies", chip: "Modifies", plural: "Modified by" },
+    { key: "distinguishes", label: "Distinguishes", chip: "Distinguishes", plural: "Distinguished by" },
+    { key: "follows", label: "Follows", chip: "Follows", plural: "Followed by" },
+    { key: "cites", label: "Cites", chip: "Cites", plural: "Also cited by (listed, no passage read)" }
+  ];
+  var NEGATIVE = { questions: 1, modifies: 1, replaces: 1, overrules: 1, disapproves: 1 };
+  var RUNGS = ["Unchecked", "Citers listed", "Citers screened", "Checked on Lexis"];
+  var visible = { follows: true, distinguishes: true, questions: true, modifies: true, disapproves: true, overrules: true, cites: true };
+
+  function el(tag, attrs, parent, ns) {
+    var e = ns ? document.createElementNS(SVGNS, tag) : document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function text(tag, s, parent, cls) {
+    var e = el(tag, cls ? { "class": cls } : null, parent);
+    e.textContent = s;
+    return e;
+  }
+  function lineSample(type, parent) {
+    var s = el("svg", { width: 30, height: 10, viewBox: "0 0 30 10", "aria-hidden": "true" }, parent, true);
+    el("line", { x1: 1, y1: 5, x2: 29, y2: 5, "class": "edge t-" + type }, s, true);
+    return s;
+  }
+  function dotSample(signal, parent) {
+    var s = el("svg", { width: 14, height: 14, viewBox: "0 0 14 14", "aria-hidden": "true" }, parent, true);
+    var g = el("g", { "class": "node s-" + signal }, s, true);
+    el("circle", { cx: 7, cy: 7, r: 5.5, "class": "dot" }, g, true);
+    return s;
+  }
+
+  // ---------------------------------------------------------------- network
+  var svg = document.getElementById("net");
+  svg.setAttribute("viewBox", "0 0 " + D.width + " " + D.height);
+  var defs = el("defs", null, svg, true);
+  TYPES.forEach(function (t) {
+    var m = el("marker", { id: "arrow-" + t.key, viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: t.key === "cites" ? 7 : 5, markerHeight: t.key === "cites" ? 7 : 5, orient: "auto-start-reverse", markerUnits: "strokeWidth" }, defs, true);
+    el("path", { d: "M0,0 L10,5 L0,10 z", style: "fill: var(--rel-" + t.key + ")" }, m, true);
+  });
+  var gEdges = el("g", null, svg, true);
+  var gNodes = el("g", null, svg, true);
+
+  // edges between the same pair of cases get separate bends
+  var pairCount = {};
+  D.edges.forEach(function (e) {
+    var k = [e.from, e.to].sort().join("|");
+    e._i = pairCount[k] = (pairCount[k] || 0) + 1;
+  });
+  D.edges.forEach(function (e) {
+    var a = byId[e.from], b = byId[e.to];
+    var dx = b.x - a.x, dy = b.y - a.y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+    var nx = -dy / d, ny = dx / d;
+    var bendIdx = e._i - 1;
+    var bend = bendIdx === 0 ? 0 : (bendIdx % 2 ? 1 : -1) * 22 * Math.ceil(bendIdx / 2);
+    if (e.from > e.to) bend = -bend;
+    var cx = (a.x + b.x) / 2 + nx * bend, cy = (a.y + b.y) / 2 + ny * bend;
+    function trim(px, py, qx, qy, r) {
+      var vx = qx - px, vy = qy - py, l = Math.sqrt(vx * vx + vy * vy) || 1;
+      return [px + vx / l * r, py + vy / l * r];
+    }
+    var s = trim(a.x, a.y, cx, cy, a.r + 1);
+    var t = trim(b.x, b.y, cx, cy, b.r + 3);
+    var p = el("path", {
+      d: "M" + s[0].toFixed(1) + "," + s[1].toFixed(1) + " Q" + cx.toFixed(1) + "," + cy.toFixed(1) + " " + t[0].toFixed(1) + "," + t[1].toFixed(1),
+      "class": "edge t-" + e.type, "marker-end": "url(#arrow-" + e.type + ")"
+    }, gEdges, true);
+    e._el = p;
+  });
+  // treatment edges drawn above plain cites
+  D.edges.forEach(function (e) { if (e.type !== "cites") gEdges.appendChild(e._el); });
+
+  var order = D.nodes.slice().sort(function (a, b) { return b.r - a.r; });
+  order.forEach(function (n) {
+    var g = el("g", {
+      "class": "node s-" + n.signal + (n.read ? "" : " unread"),
+      tabindex: 0, role: "button",
+      "aria-label": n.name + ", " + SIGNAL[n.signal].word + " signal, step " + n.rung + " of 4"
+    }, gNodes, true);
+    el("circle", { cx: n.x, cy: n.y, r: Math.max(n.r, 14), "class": "hit" }, g, true);
+    el("circle", { cx: n.x, cy: n.y, r: n.r + 4, "class": "ring" }, g, true);
+    el("circle", { cx: n.x, cy: n.y, r: n.r, "class": "dot" }, g, true);
+    if (n.label) {
+      var t = el("text", { x: n.x, y: n.y + n.r + 16, "text-anchor": "middle", "class": "tier-" + n.label, "aria-hidden": "true" }, g, true);
+      t.textContent = n.short;
+    }
+    g.addEventListener("click", function () { select(n.id); });
+    g.addEventListener("keydown", function (ev) {
+      if (ev.key === "Enter" || ev.key === " " || ev.key === "Spacebar") { ev.preventDefault(); select(n.id); }
+    });
+    n._el = g;
+  });
+
+  // ---------------------------------------------------------------- chips and legend
+  var chips = document.querySelector(".chips");
+  TYPES.forEach(function (t) {
+    if (!t.chip) return;
+    var b = el("button", { type: "button", "class": "chip", "aria-pressed": "true" }, chips);
+    lineSample(t.key, b);
+    b.appendChild(document.createTextNode(t.chip));
+    b.addEventListener("click", function () {
+      var on = b.getAttribute("aria-pressed") !== "true";
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+      visible[t.key] = on;
+      if (t.key === "disapproves") visible.overrules = on;
+      applyFilter();
+    });
+  });
+  function applyFilter() {
+    D.edges.forEach(function (e) { e._el.classList.toggle("hidden", !visible[e.type]); });
+  }
+
+  var legend = document.getElementById("legend");
+  ["red", "yellow", "green", "grey"].forEach(function (s) {
+    var sp = el("span", null, legend);
+    dotSample(s, sp);
+    var b = text("b", SIGNAL[s].word, sp);
+    b.style.color = "var(--heading)";
+    sp.appendChild(document.createTextNode(" " + SIGNAL[s].meaning.replace(/\.$/, "")));
+  });
+  text("span", "Circle size: number of citing cases. Dashed outline: a citing case not on file. Arrows run from the citing case to the cited case.", legend, "note");
+
+  // ---------------------------------------------------------------- picker
+  var pick = document.getElementById("pick");
+  D.nodes.slice().sort(function (a, b) { return a.short < b.short ? -1 : 1; }).forEach(function (n) {
+    var o = el("option", { value: n.id }, pick);
+    o.textContent = n.name + " (" + n.year + ")";
+  });
+  pick.addEventListener("change", function () { select(pick.value); });
+
+  // ---------------------------------------------------------------- panel
+  var panel = document.getElementById("panel");
+  function plural(n, one, many) { return n + " " + (n === 1 ? one : many); }
+  function coverage(n) {
+    if (!n.read) return "Not on file: this case appears here only because it cites a case that is. Its own citers have not been listed.";
+    if (n.rung === 1) return "On file with the holding relied on. Its citers have not been listed yet.";
+    var parts = [];
+    if (n.listed != null) parts.push(plural(n.listed, "citing case", "citing cases") + " listed from two public indexes");
+    if (n.scanned != null) parts.push(plural(n.scanned, "published citer", "published citers") + " scanned");
+    if (n.passagesRead != null) parts.push(plural(n.passagesRead, "flagged passage", "flagged passages") + " read");
+    if (n.rung === 2) parts.push("published citers not yet screened");
+    return parts.length ? parts.join("; ") + "." : "";
+  }
+  function caseLink(n, parent) {
+    var b = el("button", { type: "button", "class": "linkish" }, parent);
+    b.textContent = n.name;
+    b.addEventListener("click", function () { select(n.id, true); });
+    parent.appendChild(document.createTextNode(", " + n.cite + " (" + n.year + ")"));
+    return b;
+  }
+
+  function render(n) {
+    panel.textContent = "";
+    text("h2", n.name, panel);
+    text("p", n.cite + ", " + n.court + ", " + n.year, panel, "meta");
+    var badge = el("div", { "class": "badge" }, panel);
+    dotSample(n.signal, badge);
+    badge.appendChild(document.createTextNode("Signal: " + SIGNAL[n.signal].word));
+    text("p", SIGNAL[n.signal].word + " means " + SIGNAL[n.signal].meaning + " " + coverage(n), panel, "signal-words");
+    var st = el("div", { "class": "status-line" }, panel);
+    text("span", "Status line", st);
+    st.appendChild(document.createTextNode(n.read ? n.status : "not on file"));
+
+    var ml = el("ol", { "class": "mini-ladder", "aria-label": "Step " + n.rung + " of 4" }, panel);
+    RUNGS.forEach(function (r, i) {
+      var li = text("li", r, ml);
+      if (i + 1 < n.rung) li.className = "done";
+      if (i + 1 === n.rung) li.setAttribute("aria-current", "step");
+    });
+
+    var inbound = D.edges.filter(function (e) { return e.to === n.id; });
+    var negative = inbound.some(function (e) { return NEGATIVE[e.type]; });
+    if (!inbound.length) {
+      text("p", "No case in this example cites it.", panel, "none");
+    } else if (!negative) {
+      text("p", "No negative treatment: no case shown questions, modifies, or disapproves it.", panel, "clean");
+    }
+    TYPES.forEach(function (t) {
+      var list = inbound.filter(function (e) { return e.type === t.key; });
+      if (!list.length) return;
+      var h = text("h3", "", panel);
+      lineSample(t.key, h);
+      h.appendChild(document.createTextNode(t.plural + " (" + list.length + ")"));
+      if (t.key === "cites") {
+        var p = el("p", { "class": "cites-list" }, panel);
+        list.forEach(function (e, i) {
+          if (i) p.appendChild(document.createTextNode("; "));
+          var c = byId[e.from];
+          var b = el("button", { type: "button", "class": "linkish" }, p);
+          b.textContent = c.short + " (" + c.year + ")";
+          b.setAttribute("aria-label", c.name);
+          b.addEventListener("click", function () { select(c.id, true); });
+        });
+        return;
+      }
+      var ul = el("ul", { "class": "rel" }, panel);
+      list.forEach(function (e) {
+        var li = el("li", null, ul);
+        caseLink(byId[e.from], li);
+        var q = text("blockquote", e.passage, li);
+      });
+    });
+
+    var outbound = D.edges.filter(function (e) { return e.from === n.id && e.type !== "cites"; });
+    if (outbound.length) {
+      text("h3", "Its own treatment of other cases", panel);
+      var ul2 = el("ul", { "class": "rel" }, panel);
+      outbound.forEach(function (e) {
+        var li = el("li", null, ul2);
+        li.appendChild(document.createTextNode(TYPES.filter(function (t) { return t.key === e.type; })[0].label + " "));
+        caseLink(byId[e.to], li);
+      });
+    }
+  }
+
+  var current = null;
+  function select(id, fromPanel) {
+    var n = byId[id];
+    if (!n) return;
+    current = id;
+    var on = {};
+    on[id] = true;
+    D.edges.forEach(function (e) {
+      var hit = e.from === id || e.to === id;
+      e._el.classList.toggle("on", hit);
+      if (hit) { on[e.from] = true; on[e.to] = true; }
+    });
+    D.nodes.forEach(function (m) {
+      m._el.classList.toggle("on", !!on[m.id]);
+      m._el.classList.toggle("selected", m.id === id);
+      m._el.setAttribute("aria-pressed", m.id === id ? "true" : "false");
+    });
+    svg.classList.add("dimmed");
+    pick.value = id;
+    render(n);
+    if (fromPanel) n._el.focus({ preventScroll: true });
+  }
+
+  applyFilter();
+  select(D.selected);
+})();
+</script>
+</body>
+</html>

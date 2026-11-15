@@ -232,6 +232,35 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline
 .cards article:has(figure a):hover { transform: translateY(-4px) scale(1.01); box-shadow: var(--shadow-hover); }
 .cards article:has(figure a):hover figure img { transform: scale(1.04); }
 
+/* Legal: one full-width feature card (picture left from 992px), then text-only skill cards */
+.cards.feature-row { display: block; }
+.cards.feature-row + .subhead { margin-top: 80px; }
+@media (min-width: 992px) {
+  .cards article.feature {
+    display: grid; grid-template-columns: 55% minmax(0, 1fr);
+    grid-template-rows: repeat(4, auto); align-content: center;
+  }
+  .cards article.feature > figure { grid-column: 1; grid-row: 1 / 5; align-self: stretch; }
+  .cards article.feature > figure img { border-bottom: 0; }
+  .cards article.feature > h3 { grid-column: 2; grid-row: 1; padding: 0 36px; margin: 28px 0 12px; font-size: 22px; }
+  .cards article.feature > p { grid-column: 2; padding-left: 36px; padding-right: 36px; }
+  .cards article.feature > p:not(.stack):not(.live) { grid-row: 2; }
+  .cards article.feature > p.stack { grid-row: 3; margin: 6px 36px 0; padding-left: 0; padding-right: 0; }
+  .cards article.feature > p.live { grid-row: 4; padding-bottom: 28px; }
+}
+.subhead {
+  text-align: center; margin: 0 0 36px;
+  font-family: var(--font-head); font-size: 14px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text);
+}
+.cards.skills article { border-top: 3px solid var(--primary); }
+.cards.skills h4 {
+  color: var(--heading); font-family: var(--font-head); font-size: 17px; line-height: 1.4; font-weight: 500;
+  padding: 0 22px; margin: 20px 0 8px;
+}
+.cards.skills article > p { padding: 0 22px; }
+.cards.skills article > p:last-child { padding-bottom: 20px; }
+
 /* About and Contact */
 .narrow { max-width: 46rem; margin: 0 auto; }
 .about-text { font-size: 18px; line-height: 1.85; text-align: center; margin: 0; }
@@ -246,7 +275,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline
 .profiles a:hover { background: var(--primary); color: var(--on-primary); transform: translateY(-3px); }
 
 /* Footer (CoHub .footer) */
-footer { background: var(--body); border-top: 1px solid var(--border); padding: 50px 0; font-size: 14px; }
+footer { background: var(--alt); border-top: 1px solid var(--border); padding: 50px 0; font-size: 14px; }
 footer .container { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
 footer p { margin: 0; }
 footer .footer-name { font-family: var(--font-head); font-size: 16px; font-weight: 500; letter-spacing: 0.5px; color: var(--heading); }
@@ -305,6 +334,7 @@ footer .footer-links a:hover { color: var(--primary); text-decoration: underline
     <nav id="site-nav" class="site-nav" aria-label="Main">
       <ul>
         <li><a href="#apps">Apps</a></li>
+        <li><a href="#legal">Legal</a></li>
         <li><a href="#data-science">Data Science</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -376,7 +406,49 @@ footer .footer-links a:hover { color: var(--primary); text-decoration: underline
     </div>
   </section>
 
-  <section class="section alt" id="data-science" aria-labelledby="ds-h">
+  <section class="section alt" id="legal" aria-labelledby="legal-h">
+    <div class="container">
+      <div class="section-title"><h2 id="legal-h">Legal</h2></div>
+      <div class="cards feature-row">
+      <article class="feature">
+        <h3>Case citator</h3>
+        <figure><a href="citator/" aria-label="Open the case citator example"><img src="img/case-citator.png" alt="Screenshot of the case citator example: a network of cases colored by signal, with one case selected and its citing cases listed by treatment" width="1200" height="750" loading="lazy" decoding="async"></a><figcaption>Example with invented cases</figcaption></figure>
+        <p>A citator kept as plain files: one record per case, with its holdings as verbatim quotes, and one list of the relations between cases (which case cites, follows, distinguishes, questions, or overrules which), each carrying the citing passage. Scripts list a case's citers from two public indexes, scan every published citer for treatment language, and reduce the result to a red, yellow, green, or grey signal that states its own coverage. A four-rung status ladder records how far each case has been checked, and a checklist generated for each filing lists every case it cites for a final check on Lexis.</p>
+        <p class="stack">Built with: Python, NetworkX, YAML, CourtListener API</p>
+        <p class="live"><a href="citator/">See the example</a></p>
+      </article>
+      </div>
+      <h3 class="subhead">Tools and Claude Code skills</h3>
+      <div class="cards skills">
+      <article>
+        <h4>Mediation packet builder</h4>
+        <p>Assembles a mediation brief and its exhibits into one hyperlinked PDF. The brief is drafted from an outline in which every factual sentence is tied to an exhibit and every case is quoted from the opinion. Scripts apply edits as Word tracked changes for review, export the brief with a working table of contents and bookmarks, build the exhibit volume with an index and cover pages, and link each index row and each exhibit cite in the text to its exhibit.</p>
+      </article>
+      <article>
+        <h4>Case-law retrieval</h4>
+        <p>Retrieves and reads the full text of United States court opinions whenever a case will be characterized, cited, quoted, or relied on. It enforces one rule: no case is characterized without a verbatim quote from the opinion. It also verifies that citations exist and takes official-reporter pin cites from star-paginated sources.</p>
+      </article>
+      <article>
+        <h4>Evidence extraction</h4>
+        <p>Turns raw personal-device evidence into citable exhibits. A complete text-message thread is pulled from the macOS Messages database by number and date range and rendered as a chronological, verbatim transcript PDF. A Gmail export, which reprints every message inside each reply, is reduced to one clean chronological email exhibit.</p>
+      </article>
+      <article>
+        <h4>Redline</h4>
+        <p>Produces a Word document with real tracked changes, so the reader can accept or reject each edit individually in Word's Review ribbon.</p>
+      </article>
+      <article>
+        <h4>Operative version</h4>
+        <p>Before a document that exists in more than one version is quoted or characterized, establishes which version is operative (the one filed, sent, or served) and says which one was read.</p>
+      </article>
+      <article>
+        <h4>Verify the predicate</h4>
+        <p>Before saying that a rule prohibits, requires, permits, or exempts something, checks that the rule's trigger condition is true of the situation. Quoting a rule proves that it exists, never that it applies.</p>
+      </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="data-science" aria-labelledby="ds-h">
     <div class="container">
       <div class="section-title"><h2 id="ds-h">Data Science</h2></div>
       <div class="cards">
@@ -412,14 +484,14 @@ footer .footer-links a:hover { color: var(--primary); text-decoration: underline
     </div>
   </section>
 
-  <section class="section" id="about" aria-labelledby="about-h">
+  <section class="section alt" id="about" aria-labelledby="about-h">
     <div class="container narrow">
       <div class="section-title"><h2 id="about-h">About</h2></div>
       <p class="about-text">I am James Ades, a data scientist in San Diego, and I build data science tools and apps. I hold a Master of Science in Data Science and Engineering from the University of California, San Diego, and have worked as a data scientist at UC San Diego Health and as a research associate at NEAT Labs. I am also the founder of Sammen, a San Diego housing company that organizes buyers into ownership groups for small multifamily buildings.</p>
     </div>
   </section>
 
-  <section class="section alt" id="contact" aria-labelledby="contact-h">
+  <section class="section" id="contact" aria-labelledby="contact-h">
     <div class="container narrow">
       <div class="section-title"><h2 id="contact-h">Contact</h2></div>
       <ul class="profiles">
