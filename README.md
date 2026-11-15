@@ -9,11 +9,11 @@ Status: live at https://jamesades.com (GitHub Pages, repository `james-ades/jame
 - A hero band with the name, a one-line description, and a button to the projects.
 - Twelve project cards, each with a picture where one exists (six so far), a short description, and a "Built with" line where the stack is known.
 - Projects with a live site link to it, and their picture is a clickable thumbnail (four apps and the recipe site; five thumbnails).
-- A Contact section linking to LinkedIn, ResearchGate, Google Scholar, ORCID, and GitHub. No email address, phone number, or contact form.
+- A Contact section linking to LinkedIn, ResearchGate, Google Scholar, ORCID, GitHub, and Instagram. No email address, phone number, or contact form.
 - Light and dark modes that follow the visitor's system setting.
 - A phone layout with one column of cards and a collapsible menu.
 - No trackers, no web fonts, and no requests to any outside server.
-- Search metadata: page description, canonical address, and structured data naming the three profiles.
+- Search metadata: page description, canonical address, and structured data naming the six profiles.
 
 ## Preview
 
