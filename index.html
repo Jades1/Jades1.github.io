@@ -7,7 +7,7 @@
     sitemap.xml: <loc>
     CNAME: the whole file
 -->
-<!-- Design derived from the CoHub Hugo theme by StaticMania (MIT); see THIRD_PARTY.txt -->
+<!-- Design derived from the CoHub Hugo theme by StaticMania (MIT). Fonts (Montserrat, Open Sans, SIL OFL) and the hero photo (Unsplash License) are self-hosted; see THIRD_PARTY.txt -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -19,6 +19,11 @@
 <meta property="og:description" content="James Ades is a data scientist in San Diego who builds data science tools and apps, from spatial and network analyses to budget, habit, typing, and learning apps.">
 <meta property="og:type" content="profile">
 <meta property="og:url" content="https://jamesades.com/">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="fonts/open-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/montserrat-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -44,6 +49,13 @@
 }
 </script>
 <style>
+/* Fonts: self-hosted latin subsets (SIL Open Font License, see fonts/) */
+@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 300; font-display: swap; src: url("fonts/montserrat-latin-300-normal.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/montserrat-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 500; font-display: swap; src: url("fonts/montserrat-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Open Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/open-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Open Sans"; font-style: normal; font-weight: 600; font-display: swap; src: url("fonts/open-sans-latin-600-normal.woff2") format("woff2"); }
+
 :root {
   --body: #ffffff;
   --alt: #f7f8fc;
@@ -55,20 +67,20 @@
   --border: #ededf4;
   --bar: #808080;
   --shadow: 0 0 12px 0 rgba(0, 0, 0, 0.09);
-  --hero: #252525;
-  --hero-text: #ffffff;
-  --hero-sub: #d6d6d6;
+  --shadow-hover: 0 10px 28px 0 rgba(0, 0, 0, 0.14);
   --focus: #b3470e;
   --frame: #eceef4;
+  --overlay: rgba(10, 14, 20, 0.58);
   --ease: cubic-bezier(0.77, 0, 0.175, 1);
-  --font-head: "Avenir Next", Montserrat, "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Open Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-head: Montserrat, "Avenir Next", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --header-h: 72px;
 }
 @media (prefers-color-scheme: dark) {
   :root {
     --body: #121417;
     --alt: #1a1d22;
-    --card: #1b1d21;
+    --card: #1e2126;
     --text: #c9ced6;
     --heading: #f2f2f2;
     --primary: #5aa9ff;
@@ -76,11 +88,10 @@
     --border: #2c3038;
     --bar: #9ea5b0;
     --shadow: 0 0 12px 0 rgba(0, 0, 0, 0.5);
-    --hero: #0d0f12;
-    --hero-text: #ffffff;
-    --hero-sub: #d6d6d6;
+    --shadow-hover: 0 10px 28px 0 rgba(0, 0, 0, 0.6);
     --focus: #f0a46a;
     --frame: #24272d;
+    --overlay: rgba(6, 8, 12, 0.66);
   }
 }
 * { box-sizing: border-box; }
@@ -91,121 +102,197 @@ body {
   color: var(--text);
   font-family: var(--font-body);
   font-size: 16px;
-  line-height: 1.65;
+  line-height: 1.7;
   letter-spacing: 0.2px;
+  -webkit-font-smoothing: antialiased;
 }
 h1, h2, h3 { color: var(--heading); font-family: var(--font-head); font-weight: 400; margin: 0; }
-p { margin: 0 0 0.6rem; }
+p { margin: 0 0 0.75rem; }
 a { color: var(--primary); text-underline-offset: 0.15em; }
 a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 3px; }
-.container { max-width: 1140px; margin: 0 auto; padding: 0 16px; }
+.container { max-width: 1170px; margin: 0 auto; padding: 0 16px; }
 
-/* Header (CoHub .main-nav, scrolled state) */
+/* Header (CoHub .main-nav). Default, and with JavaScript off: the solid white bar.
+   With JavaScript on: transparent over the hero, solid once the page scrolls. */
 .site-header {
-  position: sticky; top: 0; z-index: 50;
+  position: absolute; top: 0; left: 0; right: 0; z-index: 50;
   background: var(--body);
   box-shadow: var(--shadow);
+  transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
 }
-.site-header .container { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; min-height: 68px; }
-.brand { font-family: var(--font-head); font-size: 1.375rem; font-weight: 500; letter-spacing: 0.5px; color: var(--heading); text-decoration: none; padding: 0.75rem 0; }
+.js .site-header { position: fixed; }
+.js .site-header.over-hero:not(.menu-open) { background: transparent; box-shadow: none; }
+.site-header .container {
+  max-width: none; padding: 0 35px;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  min-height: var(--header-h);
+}
+.brand {
+  font-family: var(--font-head); font-size: 1.375rem; font-weight: 500; letter-spacing: 0.5px;
+  color: var(--heading); text-decoration: none; padding: 0.75rem 0;
+  transition: color 0.4s ease-in-out;
+}
 .menu-toggle { display: none; }
-.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 0; }
+.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; }
 .site-nav a {
-  display: block; padding: 0.6rem 1.1rem;
+  display: block; padding: 0.6rem 20px;
   font-family: var(--font-head); font-size: 14px; font-weight: 500; letter-spacing: 1px;
   color: var(--heading); text-decoration: none;
+  transition: color 0.4s ease-in-out, opacity 0.3s ease-in-out;
 }
 .site-nav a:hover { color: var(--primary); }
+.js .site-header.over-hero:not(.menu-open) .brand,
+.js .site-header.over-hero:not(.menu-open) .site-nav a { color: #ffffff; }
+.js .site-header.over-hero:not(.menu-open) .site-nav a:hover { color: #ffffff; opacity: 0.75; }
+.js .site-header.over-hero:not(.menu-open) .menu-toggle .bar { background: #ffffff; }
 
-/* Hero (CoHub .hero, dark overlay without the photo) */
-.hero { background: var(--hero); padding: 160px 0 140px; text-align: center; }
-.hero h1 { color: var(--hero-text); font-size: 50px; line-height: 1.4; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
-.hero .descriptor { color: var(--hero-sub); font-size: 19px; line-height: 32px; margin: 0 auto 50px; max-width: 40rem; }
+/* Hero (CoHub .hero: full-bleed photo under a dark overlay) */
+.hero {
+  position: relative; text-align: center;
+  padding: 250px 0 200px;
+  background-color: #1d2b3a;
+  background-image: url("img/hero.jpg");
+  background-position: center 60%;
+  background-size: cover;
+}
+.hero::after { content: ""; position: absolute; inset: 0; background: var(--overlay); }
+.hero .container { position: relative; z-index: 1; }
+.hero h1 {
+  color: #ffffff; font-size: 56px; line-height: 1.25; font-weight: 300;
+  text-transform: uppercase; letter-spacing: 6px; margin-bottom: 18px;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.25);
+}
+.hero .descriptor {
+  color: #ffffff; font-size: 19px; line-height: 32px; margin: 0 auto 50px; max-width: 40rem;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+}
 .btn {
   display: inline-block; background: var(--primary); color: var(--on-primary);
   border: 1px solid var(--primary); font-family: var(--font-head); font-size: 14px; font-weight: 500;
-  letter-spacing: 0.5px; padding: 15px 40px; text-decoration: none; transition: transform 0.3s var(--ease);
+  letter-spacing: 1px; text-transform: uppercase; padding: 15px 40px; text-decoration: none;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
 }
-.btn:hover { transform: translateY(-3px); }
+.hero .btn { background: #0066cc; color: #ffffff; border-color: #0066cc; }
+.btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); }
+.hero a.btn:focus-visible { outline-color: #ffffff; }
 
 /* Sections (CoHub .section and .section-title) */
-.section { padding: 100px 0; scroll-margin-top: 72px; }
+.section { padding: 100px 0; scroll-margin-top: var(--header-h); }
 .section.alt { background: var(--alt); }
-.section-title { text-align: center; position: relative; margin-bottom: 80px; }
-.section-title h2 { font-size: 40px; line-height: 1.3; font-weight: 300; }
+.section-title { text-align: center; position: relative; margin-bottom: 90px; }
+.section-title h2 { font-size: 40px; line-height: 1.3; font-weight: 300; letter-spacing: 0.5px; }
 .section-title::after {
   content: ""; position: absolute; width: 100px; height: 5px; border-radius: 5px;
   background: var(--bar); bottom: -25px; left: 50%; transform: translateX(-50%);
 }
 
-/* Gallery cards (CoHub .gallery-item) */
-.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; }
+/* Project cards (CoHub .gallery-item) */
+.cards { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 30px; align-items: stretch; }
+.cards article { grid-column: span 2; }
+/* Center an incomplete last row (one or two cards) under the full rows of three */
+.cards article:last-child:nth-child(3n+1) { grid-column: 3 / span 2; }
+.cards article:nth-last-child(2):nth-child(3n+1) { grid-column: 2 / span 2; }
 .cards article {
+  display: flex; flex-direction: column;
   background: var(--card); border-radius: 8px; overflow: hidden; box-shadow: var(--shadow);
-  transition: transform 0.5s var(--ease);
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
 }
-.cards article:hover { transform: scale(1.02); }
+.cards article > figure { order: 1; }
+.cards article > h3 { order: 2; }
+.cards article > p { order: 3; padding: 0 26px; }
 .cards figure { margin: 0; }
 .cards figure img {
-  display: block; max-width: 100%; width: 100%; height: auto;
+  display: block; width: 100%; max-width: 100%; height: auto;
   aspect-ratio: 1200 / 750; object-fit: cover;
   background: var(--frame); border-bottom: 1px solid var(--border);
+  transition: transform 0.7s var(--ease);
 }
-.cards figcaption { font-size: 0.875rem; padding: 0.6rem 24px 0; color: var(--text); }
-.cards h3 { order: 0; font-size: 19px; line-height: 1.4; padding: 0 24px; margin: 0.9rem 0 0.5rem; }
-.cards article { display: flex; flex-direction: column; }
-.cards article > h3 { order: 2; }
-.cards article > figure { order: 1; }
-.cards article > p { order: 3; padding: 0 24px; }
-.cards article > p.stack { font-size: 0.875rem; margin-top: auto; padding-top: 0.4rem; padding-bottom: 24px; border-top: 1px solid var(--border); margin-left: 24px; margin-right: 24px; padding-left: 0; padding-right: 0; }
-.cards article > p:last-child:not(.stack) { padding-bottom: 24px; }
-.cards article > p.stack:not(:last-child) { padding-bottom: 0.6rem; }
-.cards article > p.live { font-family: var(--font-head); font-size: 14px; font-weight: 500; letter-spacing: 0.5px; }
-.cards p.live a::after { content: " \2192"; content: " \2192" / ""; }
-.cards figure a { display: block; }
+.cards figure a { display: block; overflow: hidden; }
 .cards figure a:focus-visible { outline-offset: -3px; border-radius: 0; }
-.cards article > h3:has(+ p) { margin-top: 24px; }
+.cards figcaption {
+  font-size: 13px; line-height: 1.5; letter-spacing: 0.3px; color: var(--text);
+  padding: 10px 26px 0; font-style: italic;
+}
+.cards h3 { font-size: 19px; line-height: 1.4; font-weight: 400; padding: 0 26px; margin: 14px 0 10px; }
+.cards article > p:not(.stack):not(.live) { font-size: 15px; line-height: 1.7; }
+.cards article > p.stack {
+  font-size: 13px; line-height: 1.6; color: var(--text);
+  margin: auto 26px 0; padding: 14px 0 22px; border-top: 1px solid var(--border);
+}
+.cards article > p.stack:not(:last-child) { padding-bottom: 6px; }
+.cards article > p:last-child:not(.stack) { padding-bottom: 22px; }
+.cards article > p.live {
+  margin: 0; padding-top: 6px;
+  font-family: var(--font-head); font-size: 13px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;
+}
+.cards p.live a { text-decoration: none; }
+.cards p.live a:hover { text-decoration: underline; }
+.cards p.live a::after { content: " \2192"; content: " \2192" / ""; }
+/* Hover only where the picture is a link (CoHub .gallery-item:hover) */
+.cards article:has(figure a):hover { transform: translateY(-4px) scale(1.01); box-shadow: var(--shadow-hover); }
+.cards article:has(figure a):hover figure img { transform: scale(1.04); }
 
 /* About and Contact */
-.narrow { max-width: 44rem; margin: 0 auto; }
-.about-text { font-size: 17px; line-height: 1.8; text-align: center; }
-.profiles { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+.narrow { max-width: 46rem; margin: 0 auto; }
+.about-text { font-size: 18px; line-height: 1.85; text-align: center; margin: 0; }
+.profiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 767px) { .profiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .profiles a {
-  display: inline-block; padding: 12px 32px; border: 1px solid var(--primary);
-  color: var(--primary); font-family: var(--font-head); font-size: 14px; font-weight: 500;
-  letter-spacing: 0.5px; text-decoration: none; transition: transform 0.3s var(--ease);
+  display: block; text-align: center; padding: 15px 8px;
+  border: 1px solid var(--primary); color: var(--primary); background: transparent;
+  font-family: var(--font-head); font-size: 14px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;
+  text-decoration: none; transition: transform 0.3s var(--ease), background-color 0.3s var(--ease), color 0.3s var(--ease);
 }
 .profiles a:hover { background: var(--primary); color: var(--on-primary); transform: translateY(-3px); }
 
 /* Footer (CoHub .footer) */
-footer { background: var(--alt); border-top: 1px solid var(--border); padding: 30px 0; text-align: center; font-size: 14px; }
+footer { background: var(--body); border-top: 1px solid var(--border); padding: 50px 0; font-size: 14px; }
+footer .container { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
 footer p { margin: 0; }
-footer .footer-links { margin-top: 0.4rem; font-size: 13px; }
+footer .footer-name { font-family: var(--font-head); font-size: 16px; font-weight: 500; letter-spacing: 0.5px; color: var(--heading); }
+footer .footer-links { font-size: 13px; letter-spacing: 0.5px; }
+footer .footer-links a { color: var(--text); text-decoration: none; }
+footer .footer-links a:hover { color: var(--primary); text-decoration: underline; }
 
 @media (max-width: 991px) {
-  .section { padding: 60px 0; }
-  .section-title { margin-bottom: 60px; }
-  .hero { padding: 120px 0 100px; }
+  .section { padding: 70px 0; }
+  .section-title { margin-bottom: 80px; }
+  .hero { padding: 200px 0 140px; }
+  .hero h1 { font-size: 44px; letter-spacing: 4px; }
+  .cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .cards article:last-child:nth-child(3n+1), .cards article:nth-last-child(2):nth-child(3n+1) { grid-column: span 2; }
+  .cards article:last-child:nth-child(odd) { grid-column: 2 / span 2; }
+  .site-header .container { padding: 0 24px; }
 }
 @media (max-width: 767px) {
-  .cards { grid-template-columns: minmax(0, 1fr); }
-  .hero h1 { font-size: 32px; }
+  .hero { padding: 150px 0 100px; }
+  .hero h1 { font-size: 34px; letter-spacing: 3px; }
   .hero .descriptor { font-size: 17px; line-height: 28px; margin-bottom: 36px; }
   .section-title h2 { font-size: 30px; }
+  .section-title { margin-bottom: 70px; }
+  .site-header .container { padding: 0 16px; }
   .js .menu-toggle {
     display: inline-flex; flex-direction: column; justify-content: center; gap: 5px;
     background: none; border: 0; padding: 12px 6px; cursor: pointer;
   }
-  .menu-toggle .bar { display: block; width: 25px; height: 2px; background: var(--heading); }
+  .menu-toggle .bar { display: block; width: 25px; height: 2px; background: var(--heading); transition: background-color 0.4s ease-in-out; }
   .site-nav { width: 100%; }
-  .site-nav ul { flex-direction: column; padding-bottom: 0.5rem; }
-  .site-nav a { padding: 0.7rem 0; }
+  .site-nav a { padding: 0.5rem 12px 0.5rem 0; }
+  .js .site-nav ul { flex-direction: column; padding-bottom: 0.75rem; }
+  .js .site-nav a { padding: 0.7rem 0; }
   .js .site-nav:not(.open) { display: none; }
+  html:not(.js) .hero { padding-top: 190px; }
+  footer .container { flex-direction: column; text-align: center; }
+}
+@media (max-width: 599px) {
+  .cards { grid-template-columns: minmax(0, 1fr); }
+  .cards article:nth-child(n):nth-child(n) { grid-column: auto; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; }
-  .cards article:hover, .btn:hover, .profiles a:hover { transform: none; }
+  .cards article:has(figure a):hover, .cards article:has(figure a):hover figure img,
+  .btn:hover, .profiles a:hover { transform: none; }
 }
 </style>
 <script>document.documentElement.classList.add("js");</script>
@@ -268,7 +355,7 @@ footer .footer-links { margin-top: 0.4rem; font-size: 13px; }
       </article>
       <article>
         <h3>Better Habits</h3>
-        <!-- PICTURE PENDING better-habits: <figure><img src="img/better-habits.png" alt="Screenshot of the Better Habits daily check-in screen on iPhone" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Daily check-in</figcaption></figure> -->
+        <figure><img src="img/better-habits.png" alt="Screenshot of the Better Habits daily check-in screen on iPhone" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Daily check-in</figcaption></figure>
         <p>A private daily habit tracker with one-tap check-ins, streaks, stats, and custom reminders. It is a native app for iPhone and Mac, rebuilt from an earlier web app so that reminders reach the lock screen even when the app is closed.</p>
         <p class="stack">Built with: SwiftUI, Swift Charts</p>
       </article>
@@ -277,6 +364,13 @@ footer .footer-links { margin-top: 0.4rem; font-size: 13px; }
         <figure><img src="img/rent-vs-own.png" alt="Screenshot of the Rent vs. Own Calculator showing owner and renter net worth by year" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Owner and renter net worth over 30 years</figcaption></figure>
         <p>A rent-versus-buy net-worth comparison for Sammen buildings, run per property and unit type: one person buys a unit, the other rents it and invests the difference, and the model asks who is worth more if each cashed out at the end of every year for 30 years. It applies selling costs, capital-gains tax on both sides, and California's Proposition 13 cap, and reports the year owning pulls ahead for good. The same model runs as a Python engine and as a self-contained HTML calculator.</p>
         <p class="stack">Built with: Python, HTML</p>
+      </article>
+      <article>
+        <h3>Recipe Recommendation System</h3>
+        <figure><a href="https://recipe-recommendation-system-theta.vercel.app" rel="noopener" aria-label="Open the Recipe Recommendation System site, sign-in required"><img src="img/recipe-recommender.png" alt="Screenshot of the Recipe Recommendation System's recipe page with similar recipes" width="1200" height="750" loading="lazy" decoding="async"></a><figcaption>A recipe and its graph neighbors</figcaption></figure>
+        <p>A recipe app for a circle of friends in which recipes and ingredients live in a Neo4j graph. Recommendations come from graph traversal (shared ingredients, friends' ratings, and pantry matching) rather than a black-box model, and new recipes are structured into the graph from pasted text or photos.</p>
+        <p class="stack">Built with: Neo4j, Next.js (React), Tailwind, Claude API</p>
+        <p class="live"><a href="https://recipe-recommendation-system-theta.vercel.app" rel="noopener">Open the site (sign-in required)</a></p>
       </article>
       </div>
     </div>
@@ -287,36 +381,29 @@ footer .footer-links { margin-top: 0.4rem; font-size: 13px; }
       <div class="section-title"><h2 id="ds-h">Data Science</h2></div>
       <div class="cards">
       <article>
-        <h3>Recipe Recommendation System</h3>
-        <figure><a href="https://recipe-recommendation-system-theta.vercel.app" rel="noopener" aria-label="Open the Recipe Recommendation System site, sign-in required"><img src="img/recipe-recommender.png" alt="Screenshot of the Recipe Recommendation System's recipe page with similar recipes" width="1200" height="750" loading="lazy" decoding="async"></a><figcaption>A recipe and its graph neighbors</figcaption></figure>
-        <p>A recipe app for a circle of friends in which recipes and ingredients live in a Neo4j graph. Recommendations come from graph traversal (shared ingredients, friends' ratings, and pantry matching) rather than a black-box model, and new recipes are structured into the graph from pasted text or photos.</p>
-        <p class="stack">Built with: Neo4j, Next.js (React), Tailwind, Claude API</p>
-        <p class="live"><a href="https://recipe-recommendation-system-theta.vercel.app" rel="noopener">Open the site (sign-in required)</a></p>
-      </article>
-      <article>
         <h3>Behavioral-health network analysis (UC San Diego Health)</h3>
-        <!-- PICTURE PENDING network-analysis: <figure><img src="img/network-analysis.png" alt="Map or network figure of behavioral-health services across San Diego County" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Behavioral-health service network</figcaption></figure> -->
+        <figure><img src="img/network-analysis.png" alt="Map or network figure of behavioral-health services across San Diego County" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Illustrative figure, invented data</figcaption></figure>
         <p>A network-analysis tool to optimize behavioral-health services across San Diego County, pitched to County Behavioral Health, which adopted it. It is fed by a pipeline that cleans protected health information, provider and other data, with Tableau dashboards for stakeholders.</p>
       </article>
       <article>
         <h3>Housing capstone project (UC San Diego)</h3>
-        <!-- PICTURE PENDING housing-capstone: <figure><img src="img/housing-capstone.png" alt="Screenshot of the capstone's Dash dashboard of San Diego housing data" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Capstone dashboard</figcaption></figure> -->
+        <figure><img src="img/housing-capstone.png" alt="Screenshot of the capstone's Dash dashboard of San Diego housing data" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Illustrative figure, invented data</figcaption></figure>
         <p>A graduate capstone that collected Zillow listings, Yelp business data and 36 Census variables into PostgreSQL, then used XGBoost, random forest, multilevel and spatial regression models to identify high-value homes for low-income families. Results were presented in a Dash and Plotly dashboard and an ArcGIS StoryMap.</p>
         <p class="stack">Built with: Python (Scrapy, Beautiful Soup, GeoPandas, PySpark, Dask), PostgreSQL, ArcGIS, Dash, Plotly</p>
       </article>
       <article>
         <h3>Acquisitions data pipeline (Sammen)</h3>
-        <!-- PICTURE PENDING acquisitions-pipeline: <figure><img src="img/acquisitions-pipeline.png" alt="Chart comparing the hedonic pricing model with raw comparables" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Model against raw comparables</figcaption></figure> -->
+        <figure><img src="img/acquisitions-pipeline.png" alt="Chart comparing the hedonic pricing model with raw comparables" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Illustrative figure, invented data</figcaption></figure>
         <p>Extracts and structures LoopNet offering memoranda into a comparables dataset. A hedonic pricing model is fit to the data and cross-checked against raw comparables.</p>
       </article>
       <article>
         <h3>spatial_package</h3>
-        <!-- PICTURE PENDING spatial-package: <figure><img src="img/spatial-package.png" alt="Example output figure from spatial_package" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Example spatial analysis</figcaption></figure> -->
+        <figure><img src="img/spatial-package.png" alt="Example output figure from spatial_package" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Illustrative figure, invented data</figcaption></figure>
         <p>Functions for spatial analyses.</p>
       </article>
       <article>
         <h3>fspackage</h3>
-        <!-- PICTURE PENDING fspackage: <figure><img src="img/fspackage.png" alt="Example data quality report from fspackage" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Example data quality check</figcaption></figure> -->
+        <figure><img src="img/fspackage.png" alt="Example data quality report from fspackage" width="1200" height="750" loading="lazy" decoding="async"><figcaption>Illustrative figure, invented data</figcaption></figure>
         <p>Data quality checks on FSP.</p>
         <p class="stack">Built with: R</p>
       </article>
@@ -328,36 +415,44 @@ footer .footer-links { margin-top: 0.4rem; font-size: 13px; }
   <section class="section" id="about" aria-labelledby="about-h">
     <div class="container narrow">
       <div class="section-title"><h2 id="about-h">About</h2></div>
-  <p class="about-text">I am James Ades, a data scientist in San Diego, and I build data science tools and apps. I hold a Master of Science in Data Science and Engineering from the University of California, San Diego, and have worked as a data scientist at UC San Diego Health and as a research associate at NEAT Labs. I am also the founder of Sammen, a San Diego housing company that organizes buyers into ownership groups for small multifamily buildings.</p>
+      <p class="about-text">I am James Ades, a data scientist in San Diego, and I build data science tools and apps. I hold a Master of Science in Data Science and Engineering from the University of California, San Diego, and have worked as a data scientist at UC San Diego Health and as a research associate at NEAT Labs. I am also the founder of Sammen, a San Diego housing company that organizes buyers into ownership groups for small multifamily buildings.</p>
     </div>
   </section>
 
   <section class="section alt" id="contact" aria-labelledby="contact-h">
     <div class="container narrow">
       <div class="section-title"><h2 id="contact-h">Contact</h2></div>
-    <ul class="profiles">
-      <li><a href="https://www.linkedin.com/in/james-ades-93b346215/" rel="me noopener">LinkedIn</a></li>
-      <li><a href="https://www.researchgate.net/profile/James-Ades" rel="me noopener">ResearchGate</a></li>
-      <li><a href="https://github.com/james-ades" rel="me noopener">GitHub</a></li>
-      <li><a href="https://www.instagram.com/jades802/" rel="me noopener">Instagram</a></li>
-    </ul>
+      <ul class="profiles">
+        <li><a href="https://www.linkedin.com/in/james-ades-93b346215/" rel="me noopener">LinkedIn</a></li>
+        <li><a href="https://www.researchgate.net/profile/James-Ades" rel="me noopener">ResearchGate</a></li>
+        <li><a href="https://github.com/james-ades" rel="me noopener">GitHub</a></li>
+        <li><a href="https://www.instagram.com/jades802/" rel="me noopener">Instagram</a></li>
+      </ul>
     </div>
   </section>
 </main>
 <footer>
   <div class="container">
-  <p>James Ades, San Diego.</p>
-  <p class="footer-links"><a href="https://scholar.google.com/citations?user=cBjMCH8AAAAJ" rel="me noopener">Google Scholar</a> | <a href="https://orcid.org/0000-0003-3101-7385" rel="me noopener">ORCID</a></p>
+    <p class="footer-name">James Ades, San Diego.</p>
+    <p class="footer-links"><a href="https://scholar.google.com/citations?user=cBjMCH8AAAAJ" rel="me noopener">Google Scholar</a> | <a href="https://orcid.org/0000-0003-3101-7385" rel="me noopener">ORCID</a></p>
   </div>
 </footer>
 <script>
 (function () {
+  var header = document.querySelector(".site-header");
   var btn = document.querySelector(".menu-toggle");
   var nav = document.getElementById("site-nav");
-  if (!btn || !nav) return;
-  function set(open) { nav.classList.toggle("open", open); btn.setAttribute("aria-expanded", open ? "true" : "false"); }
+  if (!header || !btn || !nav) return;
+  function set(open) {
+    nav.classList.toggle("open", open);
+    header.classList.toggle("menu-open", open);
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+  }
   btn.addEventListener("click", function () { set(btn.getAttribute("aria-expanded") !== "true"); });
   nav.addEventListener("click", function (e) { if (e.target.tagName === "A") set(false); });
+  function onScroll() { header.classList.toggle("over-hero", window.scrollY < 50); }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
 })();
 </script>
 </body>

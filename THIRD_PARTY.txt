@@ -12,3 +12,36 @@ the theme's LICENSE file:
 
 (The theme's LICENSE file carries this placeholder rather than StaticMania's
 name; StaticMania is the theme's author.)
+
+
+Fonts (self-hosted in fonts/, latin subset, woff2)
+
+Montserrat, weights 300, 400, 500
+  Copyright 2011 The Montserrat Project Authors
+  (https://github.com/JulietaUla/Montserrat)
+  SIL Open Font License, Version 1.1: fonts/OFL-Montserrat.txt
+
+Open Sans, weights 400, 600
+  Copyright 2020 The Open Sans Project Authors
+  (https://github.com/googlefonts/opensans)
+  SIL Open Font License, Version 1.1: fonts/OFL-OpenSans.txt
+
+Both were downloaded on 2026-11-15 from the Fontsource packages
+@fontsource/montserrat@5.1.0 and @fontsource/open-sans@5.1.0
+(cdn.jsdelivr.net). The files are unmodified.
+
+
+Hero photo (img/hero.jpg)
+
+San Diego skyline seen across San Diego Bay from Coronado.
+  Photographer: Hakan Toker (Unsplash: hkntkr)
+  Page: https://unsplash.com/photos/city-skyline-across-body-of-water-during-daytime-BhTgjLZ_v2U
+  Location on the page: "San Diego, CA, USA"
+  License: Unsplash License (https://unsplash.com/license), free to use,
+  attribution not required.
+  Resized to 2000 px wide, cropped to 2000 x 1150, and recompressed.
+
+
+Favicon (favicon.svg, favicon.ico, apple-touch-icon.png)
+
+Original "JA" monogram made for this site.
