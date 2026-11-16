@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<!-- Case citator example. Read-only demonstration: all names, citations, dates and passages in data.js are invented. -->
+<!-- Case citator example. Read-only: a sample of published California cases, with the citing passages verbatim (data.js, built by export/export.py). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Case citator example | James Ades</title>
-<meta name="description" content="An interactive example of a case citator: which case cites which, how, and how far each case has been checked. All case names and citations are invented.">
+<meta name="description" content="An interactive example of a case citator: which case cites which, how, and how far each case has been checked. A sample of published California cases.">
 <link rel="icon" href="../favicon.ico" sizes="32x32">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <style>
@@ -131,8 +131,6 @@ main { padding: 40px 0 70px; }
 .badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-head); font-weight: 500; color: var(--heading); font-size: 15px; }
 .badge svg { flex: none; }
 .signal-words { margin: 6px 0 10px; font-size: 14px; }
-.status-line { font-size: 13px; background: var(--alt); border-radius: 6px; padding: 8px 10px; color: var(--heading); margin-bottom: 14px; overflow-wrap: anywhere; }
-.status-line span { display: block; font-family: var(--font-head); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--text); }
 .mini-ladder { list-style: none; padding: 0; margin: 0 0 16px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
 .mini-ladder li { font-size: 11.5px; line-height: 1.3; text-align: center; padding: 6px 4px; border-radius: 4px; background: var(--alt); color: var(--text); border: 1px solid transparent; }
 .mini-ladder li.done { color: var(--heading); }
@@ -144,6 +142,9 @@ main { padding: 40px 0 70px; }
 .linkish { background: none; border: 0; padding: 0; font: inherit; color: var(--primary); text-decoration: underline; text-underline-offset: 0.15em; cursor: pointer; text-align: left; }
 .panel .cites-list { font-size: 14px; line-height: 1.6; }
 .panel .none { font-size: 14px; }
+.panel blockquote p.passage { margin: 0; white-space: pre-line; }
+.panel blockquote footer.pin { margin-top: 4px; font-size: 12.5px; color: var(--text); }
+.panel .case-name { color: var(--heading); font-weight: 600; }
 .panel .clean { font-size: 14px; color: var(--heading); background: var(--alt); border-radius: 6px; padding: 8px 10px; }
 
 /* network */
@@ -204,7 +205,7 @@ main { padding: 40px 0 70px; }
 <main class="container">
   <section class="intro" aria-labelledby="title">
     <h1 id="title">Case citator</h1>
-    <p class="notice">Example. Every case name, citation, date, and quotation on this page is invented.</p>
+    <p class="notice">Example. A sample of published California cases. Each signal reflects the citing passages read when the sample was made, and is not a current check of any case.</p>
     <p class="lede">A citator keeps one record per case, the relations between cases (who follows, distinguishes, or questions whom, with the citing passage quoted), and how far each case has been checked. Each case gets a signal computed from those relations and its place on a four-step ladder. Select a case to see who cites it and how.</p>
   </section>
 
@@ -229,7 +230,7 @@ main { padding: 40px 0 70px; }
 
   <div class="workspace">
     <figure class="netbox" style="margin:0">
-      <svg id="net" role="group" aria-label="Citation network of invented cases. Each case is a button; arrows run from the citing case to the cited case."></svg>
+      <svg id="net" role="group" aria-label="Citation network of a sample of published California cases. Each case is a button; arrows run from the citing case to the cited case."></svg>
       <figcaption class="legend" id="legend"></figcaption>
     </figure>
     <aside class="panel" id="panel" aria-live="polite" aria-label="Selected case"></aside>
@@ -247,7 +248,7 @@ main { padding: 40px 0 70px; }
   D.nodes.forEach(function (n) { byId[n.id] = n; });
 
   var SIGNAL = {
-    red: { word: "Red", meaning: "overruled, disapproved, review granted, or depublished by a later case." },
+    red: { word: "Red", meaning: "overruled or disapproved, in whole or in part, by a later case; read the passage." },
     yellow: { word: "Yellow", meaning: "questioned, modified, or distinguished by a later case, or citers listed but not yet screened." },
     green: { word: "Green", meaning: "citers screened or checked on Lexis, and no treatment found." },
     grey: { word: "Grey", meaning: "unchecked: the case's own citers have not been listed." }
@@ -332,7 +333,7 @@ main { padding: 40px 0 70px; }
   var order = D.nodes.slice().sort(function (a, b) { return b.r - a.r; });
   order.forEach(function (n) {
     var g = el("g", {
-      "class": "node s-" + n.signal + (n.read ? "" : " unread"),
+      "class": "node s-" + n.signal + (n.onFile ? "" : " unread"),
       tabindex: 0, role: "button",
       "aria-label": n.name + ", " + SIGNAL[n.signal].word + " signal, step " + n.rung + " of 4"
     }, gNodes, true);
@@ -377,7 +378,7 @@ main { padding: 40px 0 70px; }
     b.style.color = "var(--heading)";
     sp.appendChild(document.createTextNode(" " + SIGNAL[s].meaning.replace(/\.$/, "")));
   });
-  text("span", "Circle size: number of citing cases. Dashed outline: a citing case not on file. Arrows run from the citing case to the cited case.", legend, "note");
+  text("span", "Circle size: number of cases in this sample that cite it. Dashed outline: a citing case not on file. Arrows run from the citing case to the cited case.", legend, "note");
 
   // ---------------------------------------------------------------- picker
   var pick = document.getElementById("pick");
@@ -390,20 +391,8 @@ main { padding: 40px 0 70px; }
   // ---------------------------------------------------------------- panel
   var panel = document.getElementById("panel");
   function plural(n, one, many) { return n + " " + (n === 1 ? one : many); }
-  function coverage(n) {
-    if (!n.read) return "Not on file: this case appears here only because it cites a case that is. Its own citers have not been listed.";
-    if (n.rung === 1) return "On file with the holding relied on. Its citers have not been listed yet.";
-    var parts = [];
-    if (n.listed != null) parts.push(plural(n.listed, "citing case", "citing cases") + " listed from two public indexes");
-    if (n.scanned != null) parts.push(plural(n.scanned, "published citer", "published citers") + " scanned");
-    if (n.passagesRead != null) parts.push(plural(n.passagesRead, "flagged passage", "flagged passages") + " read");
-    if (n.rung === 2) parts.push("published citers not yet screened");
-    return parts.length ? parts.join("; ") + "." : "";
-  }
   function caseLink(n, parent) {
-    var b = el("button", { type: "button", "class": "linkish" }, parent);
-    b.textContent = n.name;
-    b.addEventListener("click", function () { select(n.id, true); });
+    var b = text("span", n.name, parent, "case-name");
     parent.appendChild(document.createTextNode(", " + n.cite + " (" + n.year + ")"));
     return b;
   }
@@ -411,14 +400,12 @@ main { padding: 40px 0 70px; }
   function render(n) {
     panel.textContent = "";
     text("h2", n.name, panel);
-    text("p", n.cite + ", " + n.court + ", " + n.year, panel, "meta");
+    text("p", [n.cite, n.court, n.year].filter(function (x) { return x; }).join(", "), panel, "meta");
     var badge = el("div", { "class": "badge" }, panel);
     dotSample(n.signal, badge);
     badge.appendChild(document.createTextNode("Signal: " + SIGNAL[n.signal].word));
-    text("p", SIGNAL[n.signal].word + " means " + SIGNAL[n.signal].meaning + " " + coverage(n), panel, "signal-words");
-    var st = el("div", { "class": "status-line" }, panel);
-    text("span", "Status line", st);
-    st.appendChild(document.createTextNode(n.read ? n.status : "not on file"));
+    text("p", SIGNAL[n.signal].word + " means " + SIGNAL[n.signal].meaning +
+      (n.onFile ? "" : " This citing case is not on file, so its own citers have not been listed."), panel, "signal-words");
 
     var ml = el("ol", { "class": "mini-ladder", "aria-label": "Step " + n.rung + " of 4" }, panel);
     RUNGS.forEach(function (r, i) {
@@ -445,10 +432,7 @@ main { padding: 40px 0 70px; }
         list.forEach(function (e, i) {
           if (i) p.appendChild(document.createTextNode("; "));
           var c = byId[e.from];
-          var b = el("button", { type: "button", "class": "linkish" }, p);
-          b.textContent = c.short + " (" + c.year + ")";
-          b.setAttribute("aria-label", c.name);
-          b.addEventListener("click", function () { select(c.id, true); });
+          p.appendChild(document.createTextNode(c.name + " (" + c.year + ")"));
         });
         return;
       }
@@ -456,7 +440,9 @@ main { padding: 40px 0 70px; }
       list.forEach(function (e) {
         var li = el("li", null, ul);
         caseLink(byId[e.from], li);
-        var q = text("blockquote", e.passage, li);
+        var q = el("blockquote", null, li);
+        text("p", e.passage, q, "passage");
+        if (e.pin) text("footer", "Pin: " + e.pin, q, "pin");
       });
     });
 
