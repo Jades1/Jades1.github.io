@@ -13,11 +13,12 @@ Status: live at https://jamesades.com (GitHub Pages, repository `james-ades/jame
 - The five Data Science pictures are illustrations made from invented data, and each says so in its caption and in the image.
 - Projects with a live site link to it, and their picture is a clickable thumbnail (four apps and the recipe site, all under Apps; five thumbnails).
 - A Contact section linking to LinkedIn, ResearchGate, GitHub, and Instagram. Google Scholar and ORCID are small text links in the footer and are also in the page's search metadata. No email address, phone number, or contact form.
+- An About paragraph that links to the Sammen founder page at sammenhomes.com/about.
 - Light and dark modes that follow the visitor's system setting.
 - Two columns of cards on tablets, and a phone layout with one column and a collapsible menu.
 - No trackers and no requests to any outside server: the fonts (Montserrat and Open Sans) and every picture are served from the site itself.
 - A "JA" favicon.
-- Search metadata: page description, canonical address, and structured data naming the six profiles.
+- Search metadata: page description, canonical address, and structured data naming the six profiles and the Sammen founder page.
 
 ## Preview
 
