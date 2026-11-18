@@ -256,6 +256,11 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline
   color: var(--text);
 }
 .cards.skills article { border-top: 3px solid var(--primary); }
+/* Publications: a plain citation list under the Data Science cards */
+.cards + .subhead#publications { margin-top: 80px; }
+.pubs { max-width: 820px; margin: 0 auto; padding-left: 1.4em; font-size: 15px; line-height: 1.7; }
+.pubs li { margin-bottom: 14px; }
+.pubs b { font-weight: 600; }
 .cards.skills h4 {
   color: var(--heading); font-family: var(--font-head); font-size: 17px; line-height: 1.4; font-weight: 500;
   padding: 0 22px; margin: 20px 0 8px;
@@ -450,6 +455,12 @@ footer .footer-links a:hover { color: var(--primary); text-decoration: underline
       </article>
       <!-- TODO: ace_thresholds left out pending a description from James. -->
       </div>
+      <h3 class="subhead" id="publications">Publications</h3>
+      <ol class="pubs">
+        <li>Kornbluh, M., Withers, M. C., <b>Ades, J.</b>, Grennan, G., &amp; Mishra, J. (2024). <a href="https://doi.org/10.1080/07448481.2022.2047706" rel="noopener">Identifying protective socio-ecological factors for college students in California&rsquo;s deadliest wildfire</a>. <i>Journal of American College Health</i>, 72(2), 356&ndash;360.</li>
+        <li><b>Ades, J.</b>, &amp; Mishra, J. (2022). <a href="https://doi.org/10.3390/vision6010007" rel="noopener">Systematic review of the longitudinal sensitivity of precision tasks in visual working memory</a>. <i>Vision</i>, 6(1), 7.</li>
+        <li><b>Ades, J.</b>, &amp; Mishra, J. (2021). <a href="https://doi.org/10.3390/socsci10080283" rel="noopener">Education and crime across America: Inequity&rsquo;s cost</a>. <i>Social Sciences</i>, 10(8), 283.</li>
+      </ol>
     </div>
   </section>
   <section class="section" id="legal" aria-labelledby="legal-h">
